@@ -1,0 +1,31 @@
+plugins {
+    id 'com.android.library'
+    id 'kotlin-android'
+    id 'kotlin-kapt'
+    id 'kotlinx-serialization'
+    id 'dagger.hilt.android.plugin'
+}
+
+apply from: "$rootDir/android-lib.gradle"
+
+android {
+    externalNativeBuild {
+        cmake {
+            path "src/main/cpp/CMakeLists.txt"
+            version "3.22.1"
+        }
+    }
+}
+
+dependencies {
+    api project(":core")
+    implementation libs.android.lifecycle.process
+    implementation libs.google.hilt.android
+    kapt libs.google.hilt.androidCompiler
+    implementation libs.kotlin.serialization
+    implementation libs.serializationConverter
+    implementation libs.square.okhttp
+    implementation libs.square.okhttp.logging
+    implementation libs.square.retrofit
+    implementation libs.square.retrofitConverter
+}

@@ -1,0 +1,27 @@
+android {
+    compileSdk rootProject.ext.compileSdkVersion
+    buildToolsVersion rootProject.ext.buildToolsVersion
+
+    defaultConfig {
+        minSdk rootProject.ext.minSdkVersion
+        targetSdk rootProject.ext.targetSdkVersion
+        testInstrumentationRunner rootProject.ext.testInstrumentationRunner
+        consumerProguardFiles rootProject.ext.consumerProguard
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            consumerProguardFiles rootProject.ext.consumerProguard
+        }
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
+    kotlinOptions {
+        jvmTarget = rootProject.ext.jvmTargetVersion
+    }
+}

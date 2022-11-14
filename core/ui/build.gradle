@@ -1,0 +1,30 @@
+plugins {
+    id 'com.android.library'
+    id 'kotlin-android'
+    id 'kotlin-kapt'
+}
+
+apply from: "$rootDir/android-lib.gradle"
+
+android {
+    buildFeatures {
+        viewBinding true
+    }
+}
+
+dependencies {
+    api project(":core")
+    api libs.android.activityKtx
+    api libs.android.appcompat
+    api libs.android.constraintLayout
+    api libs.android.coreKtx
+    api libs.android.lifecycle.livedata
+    api libs.android.lifecycle.viewmodel
+    implementation libs.airbnb.deeplink
+    kapt libs.airbnb.deeplinkProcessor
+    api libs.airbnb.epoxy
+    kapt libs.airbnb.epoxyProcessor
+    api libs.glide
+    kapt libs.glideCompiler
+    api libs.google.material
+}
