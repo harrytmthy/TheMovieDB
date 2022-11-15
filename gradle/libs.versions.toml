@@ -44,14 +44,12 @@ airbnb-epoxyPaging = { module = "com.airbnb.android:epoxy-paging", version.ref =
 airbnb-epoxyProcessor = { module = "com.airbnb.android:epoxy-processor", version.ref = "epoxy" }
 glide = { module = "com.github.bumptech.glide:glide", version.ref = "glide" }
 glideCompiler = { module = "com.github.bumptech.glide:glide", version.ref = "glide" }
-google-gson = "com.google.code.gson:gson:2.10"
 google-material = "com.google.android.material:material:1.7.0"
 google-hilt-android = { module = "com.google.dagger:hilt-android", version.ref = "hilt" }
 google-hilt-androidCompiler = { module = "com.google.dagger:hilt-android-compiler", version.ref = "hilt" }
 google-hilt-core = { module = "com.google.dagger:hilt-core", version.ref = "hilt" }
 google-hilt-coreCompiler = { module = "com.google.dagger:hilt-compiler", version.ref = "hilt" }
 google-hilt-gradle = { module = "com.google.dagger:hilt-android-gradle-plugin", version.ref = "hilt" }
-json = "org.json:json:20211205"
 junit = "junit:junit:4.13.2"
 kluent = "org.amshove.kluent:kluent-android:1.72"
 kotlin-coroutines = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "coroutines" }
@@ -69,4 +67,4 @@ threetenabp = "com.jakewharton.threetenabp:threetenabp:1.2.4"
 timber = "com.jakewharton.timber:timber:4.7.1"
 
 [bundles]
-room = ["android-room-ktx", "android-room-paging", "android-room-runtime"]
+android-room = ["android-room-ktx", "android-room-runtime"]

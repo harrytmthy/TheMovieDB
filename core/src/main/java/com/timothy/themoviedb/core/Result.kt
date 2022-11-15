@@ -18,7 +18,6 @@ package com.timothy.themoviedb.core
 
 /**
  * A generic class that holds a value with its loading status.
- * @param <T>
  */
 sealed class Result<out R> {
 
@@ -39,4 +38,7 @@ sealed class Result<out R> {
             is Error -> "Error[message=$message, code=$code, error=$error]"
         }
     }
+
+    val <T> Result<T>.data: T?
+        get() = if (this is Success) data else null
 }

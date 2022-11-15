@@ -22,10 +22,10 @@ dependencies {
     implementation libs.android.lifecycle.process
     implementation libs.google.hilt.android
     kapt libs.google.hilt.androidCompiler
-    implementation libs.kotlin.serialization
+    api libs.kotlin.serialization
     implementation libs.serializationConverter
     implementation libs.square.okhttp
     implementation libs.square.okhttp.logging
-    implementation libs.square.retrofit
+    api libs.square.retrofit
     implementation libs.square.retrofitConverter
 }

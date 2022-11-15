@@ -19,7 +19,9 @@ package com.timothy.themoviedb.splash_impl.ui
 import android.os.Bundle
 import androidx.activity.viewModels
 import com.timothy.themoviedb.splash_impl.databinding.ActivitySplashBinding
+import com.timothy.themoviedb.splash_impl.ui.SplashNavigation.Home
 import com.timothy.themoviedb.ui.base.BaseActivity
+import com.timothy.themoviedb.ui.ext.observeEvent
 import com.timothy.themoviedb.ui.ext.viewBinding
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -33,14 +35,15 @@ class SplashActivity : BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
-        observeViewState()
+        observeNavigation()
         observeSnackbarEvent(viewModel.snackbarMessage)
     }
 
-    private fun observeViewState() {
-        viewModel.viewState.observe(this) { viewState ->
-            if (!viewState.success) return@observe
-            viewModel.navigateToHome()
+    private fun observeNavigation() {
+        viewModel.navigation.observeEvent(this) { navigation ->
+            if (navigation is Home) {
+                // TODO: Navigate to Home
+            }
         }
     }
 }

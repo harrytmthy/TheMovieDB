@@ -7,5 +7,6 @@ plugins {
 apply from: "$rootDir/android-lib.gradle"
 
 dependencies {
-    implementation(project(":core"))
+    implementation project(":core")
+    implementation libs.android.room.ktx
 }

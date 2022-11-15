@@ -18,17 +18,38 @@ package com.timothy.themoviedb.splash_impl
 
 import android.content.Context
 import android.content.Intent
-import com.timothy.themoviedb.splash_api.SplashNavigation
+import com.timothy.themoviedb.core.usecases.invoke
+import com.timothy.themoviedb.splash_api.domain.ConfigRepository
+import com.timothy.themoviedb.splash_api.ui.SplashAction
+import com.timothy.themoviedb.splash_api.ui.SplashNavigation
+import com.timothy.themoviedb.splash_impl.data.ConfigRepositoryImpl
+import com.timothy.themoviedb.splash_impl.data.ConfigService
+import com.timothy.themoviedb.splash_impl.domain.GetConfigUseCase
 import com.timothy.themoviedb.splash_impl.ui.SplashActivity
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
+import retrofit2.Retrofit
 import javax.inject.Singleton
 
 @InstallIn(SingletonComponent::class)
 @Module
 object SplashModule {
+
+    @Singleton
+    @Provides
+    fun provideService(retrofit: Retrofit) = retrofit.create(ConfigService::class.java)
+
+    @Singleton
+    @Provides
+    fun provideRepository(repository: ConfigRepositoryImpl): ConfigRepository = repository
+
+    @Singleton
+    @Provides
+    fun provideAction(getConfigUseCase: GetConfigUseCase) = object : SplashAction {
+        override fun getConfig() = getConfigUseCase()
+    }
 
     @Singleton
     @Provides

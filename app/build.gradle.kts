@@ -69,6 +69,8 @@ dependencies {
     implementation(project(":feature:splash:splash-impl"))
 
     implementation(libs.android.hilt.work)
+    implementation(libs.bundles.android.room)
+    kapt(libs.android.room.compiler)
     implementation(libs.android.workRuntime)
     implementation(libs.google.hilt.android)
     kapt(libs.google.hilt.androidCompiler)

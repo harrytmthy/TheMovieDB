@@ -14,11 +14,13 @@
  * limitations under the License.
  */
 
-package com.timothy.themoviedb.splash_api
+package com.timothy.themoviedb.splash_impl.data
 
-import android.content.Context
-import android.content.Intent
+import javax.inject.Inject
 
-interface SplashNavigation {
-    fun createSplashIntent(context: Context): Intent
+class ConfigNetworkDataSource @Inject constructor(
+    private val service: ConfigService
+) {
+
+    suspend fun getConfig() = service.getConfig()
 }

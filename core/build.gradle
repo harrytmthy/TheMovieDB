@@ -8,7 +8,7 @@ apply from: "$rootDir/android-lib.gradle"
 
 dependencies {
     api libs.android.coreTesting
-    api libs.google.gson
+    implementation libs.android.room.ktx
     implementation libs.google.hilt.core
     kapt libs.google.hilt.coreCompiler
     api libs.junit

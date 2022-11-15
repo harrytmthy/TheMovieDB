@@ -14,13 +14,21 @@
  * limitations under the License.
  */
 
-package com.timothy.themoviedb.splash_impl.ui
+package com.timothy.themoviedb.core.converters
 
-import com.timothy.themoviedb.ui.base.ViewState
+import androidx.room.TypeConverter
 
-data class SplashViewState(val success: Boolean) : ViewState() {
+object CollectionTypeConverters {
 
-    companion object {
-        fun create() = SplashViewState(success = false)
+    @TypeConverter
+    @JvmStatic
+    fun fromString(value: String): List<String> {
+        return if (value.isNotBlank()) value.split("|||") else emptyList()
+    }
+
+    @TypeConverter
+    @JvmStatic
+    fun toString(values: List<String>): String {
+        return values.joinToString("|||")
     }
 }

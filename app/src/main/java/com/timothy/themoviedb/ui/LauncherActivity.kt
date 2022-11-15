@@ -18,7 +18,7 @@ package com.timothy.themoviedb.ui
 
 import android.os.Bundle
 import androidx.activity.viewModels
-import com.timothy.themoviedb.splash_api.SplashNavigation
+import com.timothy.themoviedb.splash_api.ui.SplashNavigation
 import com.timothy.themoviedb.ui.LauncherNavigation.Splash
 import com.timothy.themoviedb.ui.base.BaseActivity
 import com.timothy.themoviedb.ui.ext.observeEvent

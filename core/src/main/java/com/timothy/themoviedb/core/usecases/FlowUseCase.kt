@@ -35,3 +35,5 @@ abstract class FlowUseCase<in P, R>(
 
     protected abstract fun execute(params: P): Flow<Result<R>>
 }
+
+operator fun <T> FlowUseCase<Unit, T>.invoke() = invoke(Unit)
