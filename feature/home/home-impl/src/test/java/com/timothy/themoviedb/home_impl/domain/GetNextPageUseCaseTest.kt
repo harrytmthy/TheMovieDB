@@ -16,16 +16,26 @@
 
 package com.timothy.themoviedb.home_impl.domain
 
-import com.timothy.themoviedb.core.usecases.FlowUseCase
+import com.timothy.themoviedb.core.Result.Loading.data
 import com.timothy.themoviedb.home_api.domain.MovieRepository
-import com.timothy.themoviedb.ui.ext.toResult
-import javax.inject.Inject
+import com.timothy.themoviedb.home_impl.domain.GetNextPageUseCase.Params
+import io.mockk.every
+import io.mockk.mockk
+import kotlinx.coroutines.flow.flowOf
+import kotlinx.coroutines.flow.last
+import kotlinx.coroutines.test.runTest
+import org.amshove.kluent.shouldBeEqualTo
+import org.junit.Test
 
-class GetNextPage @Inject constructor(
-    private val repository: MovieRepository
-) : FlowUseCase<GetNextPage.Params, Int>() {
+class GetNextPageUseCaseTest {
 
-    override fun execute(params: Params) = repository.getNextPage(params.page).toResult()
+    @Test
+    fun `invoke should return correct result`() = runTest {
+        val repository = mockk<MovieRepository>()
+        every { repository.getNextPage(any()) } returns flowOf(2)
 
-    data class Params(val page: Int)
+        val result = GetNextPageUseCase(repository).invoke(Params(page = 1)).last()
+
+        result.data shouldBeEqualTo 2
+    }
 }

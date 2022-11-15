@@ -14,13 +14,16 @@
  * limitations under the License.
  */
 
-package com.timothy.themoviedb.home_api
+package com.timothy.themoviedb.home_impl.domain
 
-import com.timothy.themoviedb.core.Result
+import com.timothy.themoviedb.core.usecases.DataFlowUseCase
 import com.timothy.themoviedb.home_api.domain.Movie
-import kotlinx.coroutines.flow.Flow
+import com.timothy.themoviedb.home_api.domain.MovieRepository
+import javax.inject.Inject
 
-interface HomeAction {
-    fun getNextPage(page: Int): Flow<Result<Int>>
-    fun observeMovies(): Flow<List<Movie>>
+class ObserveMoviesUseCase @Inject constructor(
+    private val repository: MovieRepository
+) : DataFlowUseCase<Unit, List<Movie>>() {
+
+    override fun execute(params: Unit) = repository.getMovies()
 }

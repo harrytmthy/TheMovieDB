@@ -14,11 +14,11 @@
  * limitations under the License.
  */
 
-package com.timothy.themoviedb.home_impl
+package com.timothy.themoviedb.home_impl.domain
 
 import com.timothy.themoviedb.core.usecases.invoke
 import com.timothy.themoviedb.home_api.domain.MovieRepository
-import com.timothy.themoviedb.home_impl.domain.ObserveMovies
+import com.timothy.themoviedb.home_impl.data.HomeTestData.MOVIES
 import io.mockk.every
 import io.mockk.mockk
 import kotlinx.coroutines.flow.flowOf
@@ -27,15 +27,15 @@ import kotlinx.coroutines.test.runTest
 import org.amshove.kluent.shouldBeEqualTo
 import org.junit.Test
 
-class ObserveMoviesTest {
+class ObserveMoviesUseCaseTest {
 
     @Test
     fun `invoke should return correct result`() = runTest {
         val repository = mockk<MovieRepository>()
-        every { repository.getMovies() } returns flowOf(emptyList())
+        every { repository.getMovies() } returns flowOf(MOVIES)
 
-        val data = ObserveMovies(repository).invoke().single()
+        val data = ObserveMoviesUseCase(repository).invoke().single()
 
-        data shouldBeEqualTo emptyList()
+        data shouldBeEqualTo MOVIES
     }
 }

@@ -18,11 +18,12 @@ package com.timothy.themoviedb.home_impl.data
 
 import com.timothy.themoviedb.home_api.data.MovieDao
 import com.timothy.themoviedb.home_api.data.MovieEntity
+import kotlinx.coroutines.flow.distinctUntilChanged
 import javax.inject.Inject
 
 class MovieLocalDataSource @Inject constructor(private val dao: MovieDao) {
 
-    fun getMovies() = dao.getMoviesFlow()
+    fun getMovies() = dao.getMoviesFlow().distinctUntilChanged()
 
     suspend fun saveMovies(entities: List<MovieEntity>, page: Int) {
         if (page == 1) {

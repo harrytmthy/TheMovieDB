@@ -16,17 +16,19 @@
 
 package com.timothy.themoviedb.ui.base
 
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
 abstract class StateViewModel<S : ViewState>(initialState: S) : BaseViewModel() {
 
     private val _viewState = MutableStateFlow(initialState)
-    val viewState: LiveData<S> = _viewState.asLiveData()
+    val viewState = _viewState.asStateFlow()
+
+    fun getCurrentState() = _viewState.asLiveData()
 
     protected fun updateViewState(reducer: S.() -> S) = viewModelScope.launch {
         _viewState.update(reducer)

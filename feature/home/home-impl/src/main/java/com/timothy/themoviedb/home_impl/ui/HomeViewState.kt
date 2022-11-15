@@ -14,13 +14,24 @@
  * limitations under the License.
  */
 
-package com.timothy.themoviedb.home_api
+package com.timothy.themoviedb.home_impl.ui
 
-import com.timothy.themoviedb.core.Result
 import com.timothy.themoviedb.home_api.domain.Movie
-import kotlinx.coroutines.flow.Flow
+import com.timothy.themoviedb.ui.base.ViewState
 
-interface HomeAction {
-    fun getNextPage(page: Int): Flow<Result<Int>>
-    fun observeMovies(): Flow<List<Movie>>
+data class HomeViewState(
+    val loading: Boolean,
+    val loadingNext: Boolean,
+    val nextPage: Int,
+    val movies: List<Movie>,
+) : ViewState() {
+
+    companion object {
+        fun create() = HomeViewState(
+            loading = false,
+            loadingNext = false,
+            nextPage = 1,
+            movies = emptyList()
+        )
+    }
 }

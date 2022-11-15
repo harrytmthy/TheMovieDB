@@ -14,13 +14,22 @@
  * limitations under the License.
  */
 
-package com.timothy.themoviedb.home_api
+package com.timothy.themoviedb.home_impl.data
 
-import com.timothy.themoviedb.core.Result
 import com.timothy.themoviedb.home_api.domain.Movie
-import kotlinx.coroutines.flow.Flow
+import org.threeten.bp.LocalDate
 
-interface HomeAction {
-    fun getNextPage(page: Int): Flow<Result<Int>>
-    fun observeMovies(): Flow<List<Movie>>
+object HomeTestData {
+
+    val MOVIE = Movie(
+        id = 1L,
+        title = "Crayon Bocah",
+        overview = "Film spesial untuk bocah.",
+        popularity = 1000.0,
+        releaseDate = LocalDate.MIN,
+        backdropUrl = "",
+        posterUrl = ""
+    )
+
+    val MOVIES = listOf(MOVIE)
 }

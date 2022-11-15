@@ -17,11 +17,14 @@
 package com.timothy.themoviedb.core.usecases
 
 import com.timothy.themoviedb.core.Result
+import com.timothy.themoviedb.core.Result.Error
+import com.timothy.themoviedb.core.Result.Loading
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.flowOn
+import kotlinx.coroutines.flow.onStart
 import timber.log.Timber
 
 /**
@@ -31,7 +34,8 @@ abstract class FlowUseCase<in P, R>(
     private val dispatcher: CoroutineDispatcher = Dispatchers.IO
 ) {
     operator fun invoke(params: P) = execute(params)
-        .catch { e -> emit(Result.Error(message = e.message.orEmpty())) }
+        .onStart { emit(Loading) }
+        .catch { e -> emit(Error(message = e.message.orEmpty())) }
         .flowOn(dispatcher)
 
     protected abstract fun execute(params: P): Flow<Result<R>>

@@ -16,14 +16,16 @@
 
 package com.timothy.themoviedb.home_impl.domain
 
-import com.timothy.themoviedb.core.usecases.DataFlowUseCase
-import com.timothy.themoviedb.home_api.domain.Movie
+import com.timothy.themoviedb.core.usecases.FlowUseCase
 import com.timothy.themoviedb.home_api.domain.MovieRepository
+import com.timothy.themoviedb.ui.ext.toResult
 import javax.inject.Inject
 
-class ObserveMovies @Inject constructor(
+class GetNextPageUseCase @Inject constructor(
     private val repository: MovieRepository
-) : DataFlowUseCase<Unit, List<Movie>>() {
+) : FlowUseCase<GetNextPageUseCase.Params, Int>() {
 
-    override fun execute(params: Unit) = repository.getMovies()
+    override fun execute(params: Params) = repository.getNextPage(params.page).toResult()
+
+    data class Params(val page: Int)
 }
