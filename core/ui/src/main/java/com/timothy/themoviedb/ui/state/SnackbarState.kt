@@ -19,4 +19,8 @@ package com.timothy.themoviedb.ui.state
 sealed class SnackbarState {
     data class Success(val message: String) : SnackbarState()
     data class Error(val message: String) : SnackbarState()
+
+    fun getSuccessMessage() = (this as? Success)?.message.orEmpty()
+
+    fun getErrorMessage() = (this as? Error)?.message.orEmpty()
 }

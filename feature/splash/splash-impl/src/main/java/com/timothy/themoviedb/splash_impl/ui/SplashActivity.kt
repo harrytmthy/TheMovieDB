@@ -36,7 +36,7 @@ class SplashActivity : BaseActivity() {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
         observeNavigation()
-        observeSnackbarEvent(viewModel.snackbarMessage)
+        observeSnackbarEvent(viewModel.snackbarMessage, view = binding.root)
     }
 
     private fun observeNavigation() {

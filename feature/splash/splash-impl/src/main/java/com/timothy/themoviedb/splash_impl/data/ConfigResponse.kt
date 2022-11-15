@@ -31,7 +31,7 @@ data class ConfigResponse(
     fun toEntity() = ConfigEntity(
         baseUrl = baseUrl.orEmpty(),
         secureUrl = secureUrl.orEmpty(),
-        backdropSizes = emptyList(),
-        posterSizes = emptyList()
+        backdropSizes = backdropSizes.orEmpty(),
+        posterSizes = posterSizes.orEmpty()
     )
 }

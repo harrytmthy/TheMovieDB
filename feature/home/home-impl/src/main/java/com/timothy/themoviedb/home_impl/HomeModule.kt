@@ -14,22 +14,12 @@
  * limitations under the License.
  */
 
-package com.timothy.themoviedb.splash_impl.data
+package com.timothy.themoviedb.home_impl
 
-import com.timothy.themoviedb.splash_api.domain.ConfigRepository
-import kotlinx.coroutines.flow.flow
-import javax.inject.Inject
-import javax.inject.Singleton
+import dagger.Module
+import dagger.hilt.InstallIn
+import dagger.hilt.components.SingletonComponent
 
-@Singleton
-class ConfigRepositoryImpl @Inject constructor(
-    private val localDataSource: ConfigLocalDataSource,
-    private val networkDataSource: ConfigNetworkDataSource
-) : ConfigRepository {
-
-    override fun getConfig() = flow {
-        val response = networkDataSource.getConfig()
-        localDataSource.saveConfig(response.config.toEntity())
-        emit(true)
-    }
-}
+@InstallIn(SingletonComponent::class)
+@Module
+object HomeModule

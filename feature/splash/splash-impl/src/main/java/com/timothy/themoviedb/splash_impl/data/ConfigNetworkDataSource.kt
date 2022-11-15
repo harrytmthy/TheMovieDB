@@ -22,5 +22,5 @@ class ConfigNetworkDataSource @Inject constructor(
     private val service: ConfigService
 ) {
 
-    suspend fun getConfig() = service.getConfig()
+    suspend fun getConfig() = service.getConfig().unwrap()
 }

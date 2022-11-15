@@ -20,9 +20,14 @@ import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.LiveData
 import com.timothy.themoviedb.ui.Event
 import com.timothy.themoviedb.ui.EventObserver
+import com.timothy.themoviedb.ui.state.SnackbarState
 
 fun <T> LiveData<Event<T>>.observeEvent(owner: LifecycleOwner, observer: (T) -> Unit) {
     observe(owner, EventObserver<T>(observer))
 }
 
 fun <T> LiveData<Event<T>>.value() = value?.peekContent()
+
+fun LiveData<Event<SnackbarState>>.getSuccessMessage() = value()?.getSuccessMessage()
+
+fun LiveData<Event<SnackbarState>>.getErrorMessage() = value()?.getErrorMessage()

@@ -65,6 +65,8 @@ dependencies {
     implementation(project(":core"))
     implementation(project(":core:network"))
     implementation(project(":core:ui"))
+    implementation(project(":feature:home:home-api"))
+    implementation(project(":feature:home:home-impl"))
     implementation(project(":feature:splash:splash-api"))
     implementation(project(":feature:splash:splash-impl"))
 

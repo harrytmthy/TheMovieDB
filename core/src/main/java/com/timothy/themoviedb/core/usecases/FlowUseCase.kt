@@ -30,7 +30,7 @@ abstract class FlowUseCase<in P, R>(
     private val dispatcher: CoroutineDispatcher = Dispatchers.IO
 ) {
     operator fun invoke(params: P): Flow<Result<R>> = execute(params)
-        .catch { e -> emit(Result.Error(message = e.message.orEmpty(), error = e)) }
+        .catch { e -> emit(Result.Error(message = e.message.orEmpty())) }
         .flowOn(dispatcher)
 
     protected abstract fun execute(params: P): Flow<Result<R>>

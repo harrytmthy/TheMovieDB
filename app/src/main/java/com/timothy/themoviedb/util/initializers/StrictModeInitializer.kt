@@ -14,22 +14,25 @@
  * limitations under the License.
  */
 
-package com.timothy.themoviedb.splash_impl.data
+package com.timothy.themoviedb.util.initializers
 
-import com.timothy.themoviedb.splash_api.domain.ConfigRepository
-import kotlinx.coroutines.flow.flow
-import javax.inject.Inject
-import javax.inject.Singleton
+import android.content.Context
+import android.os.StrictMode
+import androidx.startup.Initializer
+import com.timothy.themoviedb.BuildConfig
 
-@Singleton
-class ConfigRepositoryImpl @Inject constructor(
-    private val localDataSource: ConfigLocalDataSource,
-    private val networkDataSource: ConfigNetworkDataSource
-) : ConfigRepository {
+class StrictModeInitializer : Initializer<Unit> {
 
-    override fun getConfig() = flow {
-        val response = networkDataSource.getConfig()
-        localDataSource.saveConfig(response.config.toEntity())
-        emit(true)
+    override fun create(context: Context) {
+        if (BuildConfig.DEBUG) {
+            StrictMode.setVmPolicy(
+                StrictMode.VmPolicy.Builder()
+                    .detectAll()
+                    .penaltyLog()
+                    .build()
+            )
+        }
     }
+
+    override fun dependencies() = emptyList<Class<out Initializer<*>>>()
 }

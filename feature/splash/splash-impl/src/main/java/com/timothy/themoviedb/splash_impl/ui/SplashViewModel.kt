@@ -16,24 +16,18 @@
 
 package com.timothy.themoviedb.splash_impl.ui
 
-import android.content.Context
 import androidx.lifecycle.viewModelScope
 import com.timothy.themoviedb.core.Result.Error
 import com.timothy.themoviedb.core.Result.Loading.data
 import com.timothy.themoviedb.splash_api.ui.SplashAction
-import com.timothy.themoviedb.splash_impl.R
 import com.timothy.themoviedb.splash_impl.ui.SplashNavigation.Home
 import com.timothy.themoviedb.ui.base.BaseViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
-import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class SplashViewModel @Inject constructor(
-    @ApplicationContext private val context: Context,
-    private val action: SplashAction
-) : BaseViewModel() {
+class SplashViewModel @Inject constructor(private val action: SplashAction) : BaseViewModel() {
 
     init {
         getConfig()
@@ -45,7 +39,6 @@ class SplashViewModel @Inject constructor(
                 when {
                     result.data == true -> navigateTo(Home)
                     result is Error -> errorSnackbar(result.message)
-                    else -> errorSnackbar(context.getString(R.string.splash_error_unknown))
                 }
             }
         }

@@ -16,6 +16,7 @@
 
 package com.timothy.themoviedb.network.interceptors
 
+import android.net.TrafficStats
 import com.timothy.themoviedb.network.qualifiers.TmdbApiKey
 import okhttp3.Interceptor
 import okhttp3.Response
@@ -26,6 +27,7 @@ class AccessTokenInterceptor @Inject constructor(
 ) : Interceptor {
 
     override fun intercept(chain: Interceptor.Chain): Response {
+        TrafficStats.setThreadStatsTag(1)
         val newRequest = chain.request().newBuilder()
             .addHeader("Authorization", "Bearer $accessToken")
             .build()

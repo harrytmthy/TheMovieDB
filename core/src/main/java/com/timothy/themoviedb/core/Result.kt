@@ -25,17 +25,13 @@ sealed class Result<out R> {
 
     data class Success<out T>(val data: T) : Result<T>()
 
-    data class Error(
-        val message: String = "",
-        val code: Int = Int.MIN_VALUE,
-        val error: Throwable
-    ) : Result<Nothing>()
+    data class Error(val message: String = "", val code: Int = Int.MIN_VALUE) : Result<Nothing>()
 
     override fun toString(): String {
         return when (this) {
             is Loading -> "Loading"
             is Success<*> -> "Success[data=$data]"
-            is Error -> "Error[message=$message, code=$code, error=$error]"
+            is Error -> "Error[message=$message, code=$code]"
         }
     }
 

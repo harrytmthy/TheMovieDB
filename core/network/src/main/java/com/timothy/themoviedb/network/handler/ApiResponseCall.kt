@@ -16,14 +16,15 @@
 
 package com.timothy.themoviedb.network.handler
 
-import com.google.gson.Gson
-import com.google.gson.JsonObject
 import com.timothy.themoviedb.network.NetworkStateObserver
 import com.timothy.themoviedb.network.handler.ApiResponse.ApiError
 import com.timothy.themoviedb.network.handler.ApiResponse.NetworkError
 import com.timothy.themoviedb.network.handler.ApiResponse.NoInternetError
 import com.timothy.themoviedb.network.handler.ApiResponse.Success
 import com.timothy.themoviedb.network.handler.ApiResponse.UnknownError
+import kotlinx.serialization.decodeFromString
+import kotlinx.serialization.json.Json
+import kotlinx.serialization.json.JsonObject
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -62,8 +63,8 @@ internal class ApiResponseCall<T : Any>(
             }
         } ?: UnknownError
         else -> response.errorBody()?.let {
-            val jsonObj = Gson().fromJson(it.string(), JsonObject::class.java)
-            ApiError(jsonObj.get("message").asString, response.code())
+            val jsonObj = Json.decodeFromString<JsonObject>(it.string())
+            ApiError(jsonObj.get("status_message").toString(), response.code())
         } ?: UnknownError
     }
 

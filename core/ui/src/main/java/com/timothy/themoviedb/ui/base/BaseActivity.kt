@@ -16,6 +16,7 @@
 
 package com.timothy.themoviedb.ui.base
 
+import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.LiveData
 import com.timothy.themoviedb.ui.Event
@@ -26,17 +27,17 @@ import com.timothy.themoviedb.ui.state.SnackbarState.Success
 import com.timothy.themoviedb.ui.util.SnackbarUtil.showErrorSnackBar
 import com.timothy.themoviedb.ui.util.SnackbarUtil.showSuccessSnackbar
 
-abstract class BaseActivity : AppCompatActivity() {
+abstract class BaseActivity() : AppCompatActivity() {
 
-    protected fun observeSnackbarEvent(snackBarEvent: LiveData<Event<SnackbarState>>) {
+    protected fun observeSnackbarEvent(snackBarEvent: LiveData<Event<SnackbarState>>, view: View) {
         snackBarEvent.observeEvent(this) { snackbarState ->
             when (snackbarState) {
                 is Success -> showSuccessSnackbar(
-                    view = window?.decorView?.rootView ?: return@observeEvent,
+                    view = view,
                     message = snackbarState.message
                 )
                 is Error -> showErrorSnackBar(
-                    view = window?.decorView?.rootView ?: return@observeEvent,
+                    view = view,
                     message = snackbarState.message
                 )
             }

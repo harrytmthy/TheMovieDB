@@ -37,5 +37,7 @@ include(
     ":core:network",
     ":core:ui",
     ":feature:splash:splash-api",
-    ":feature:splash:splash-impl"
+    ":feature:splash:splash-impl",
+    ":feature:home:home-api",
+    ":feature:home:home-impl"
 )
