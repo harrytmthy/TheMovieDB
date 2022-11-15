@@ -16,15 +16,14 @@
 
 package com.timothy.themoviedb.splash_impl.domain
 
-import com.timothy.themoviedb.core.Result.Success
 import com.timothy.themoviedb.core.usecases.FlowUseCase
 import com.timothy.themoviedb.splash_api.domain.ConfigRepository
-import kotlinx.coroutines.flow.map
+import com.timothy.themoviedb.ui.ext.toResult
 import javax.inject.Inject
 
 class GetConfigUseCase @Inject constructor(
     private val repository: ConfigRepository
 ) : FlowUseCase<Unit, Boolean>() {
 
-    override fun execute(params: Unit) = repository.getConfig().map(::Success)
+    override fun execute(params: Unit) = repository.getConfig().toResult()
 }

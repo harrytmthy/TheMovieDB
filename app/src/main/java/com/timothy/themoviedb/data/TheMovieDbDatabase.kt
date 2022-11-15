@@ -21,15 +21,19 @@ import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
 import com.timothy.themoviedb.core.converters.CollectionTypeConverters
 import com.timothy.themoviedb.data.DatabaseConstants.DB_VERSION
+import com.timothy.themoviedb.home_api.data.MovieDao
+import com.timothy.themoviedb.home_api.data.MovieEntity
 import com.timothy.themoviedb.splash_api.data.ConfigDao
 import com.timothy.themoviedb.splash_api.data.ConfigEntity
 
 @Database(
-    entities = [ConfigEntity::class],
+    entities = [ConfigEntity::class, MovieEntity::class],
     version = DB_VERSION
 )
 @TypeConverters(value = [CollectionTypeConverters::class])
 abstract class TheMovieDbDatabase : RoomDatabase() {
 
     abstract fun configurationDao(): ConfigDao
+
+    abstract fun movieDao(): MovieDao
 }

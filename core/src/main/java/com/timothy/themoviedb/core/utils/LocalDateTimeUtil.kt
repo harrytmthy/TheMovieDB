@@ -14,15 +14,18 @@
  * limitations under the License.
  */
 
-package com.timothy.themoviedb.splash_impl.data
+package com.timothy.themoviedb.core.utils
 
-import com.timothy.themoviedb.splash_api.data.ConfigDao
-import com.timothy.themoviedb.splash_api.data.ConfigEntity
-import javax.inject.Inject
+import org.threeten.bp.LocalDateTime
+import org.threeten.bp.ZoneId
+import org.threeten.bp.ZoneOffset
+import org.threeten.bp.format.DateTimeFormatter
 
-class ConfigLocalDataSource @Inject constructor(private val dao: ConfigDao) {
+object LocalDateTimeUtil {
 
-    suspend fun getConfig() = dao.getConfig()
-
-    suspend fun saveConfig(entity: ConfigEntity) = dao.deleteThenInsert(entity)
+    fun getLocalDate(date: String) = DateTimeFormatter.ofPattern("yyyy-MM-dd")
+        .parse(date, LocalDateTime::from)
+        .atZone(ZoneOffset.UTC)
+        .withZoneSameInstant(ZoneId.systemDefault())
+        .toLocalDate()
 }

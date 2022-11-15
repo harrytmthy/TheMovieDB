@@ -22,18 +22,35 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.flowOn
+import timber.log.Timber
 
 /**
- * A use case which simply runs on the assigned [dispatcher] and returns a [Result].
+ * A use case which runs on the assigned [dispatcher] and returns a Result-wrapped data.
  */
 abstract class FlowUseCase<in P, R>(
     private val dispatcher: CoroutineDispatcher = Dispatchers.IO
 ) {
-    operator fun invoke(params: P): Flow<Result<R>> = execute(params)
+    operator fun invoke(params: P) = execute(params)
         .catch { e -> emit(Result.Error(message = e.message.orEmpty())) }
         .flowOn(dispatcher)
 
     protected abstract fun execute(params: P): Flow<Result<R>>
 }
 
+/**
+ * A use case which runs on the assigned [dispatcher] and returns a data.
+ * Use this only to query data from local data sources (otherwise, please use FlowUseCase).
+ */
+abstract class DataFlowUseCase<in P, R>(
+    private val dispatcher: CoroutineDispatcher = Dispatchers.IO
+) {
+    operator fun invoke(params: P) = execute(params)
+        .catch { e -> Timber.e(e) }
+        .flowOn(dispatcher)
+
+    protected abstract fun execute(params: P): Flow<R>
+}
+
 operator fun <T> FlowUseCase<Unit, T>.invoke() = invoke(Unit)
+
+operator fun <T> DataFlowUseCase<Unit, T>.invoke() = invoke(Unit)

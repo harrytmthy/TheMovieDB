@@ -14,15 +14,21 @@
  * limitations under the License.
  */
 
-package com.timothy.themoviedb.splash_impl.data
+package com.timothy.themoviedb.home_impl.data
 
-import com.timothy.themoviedb.splash_api.data.ConfigDao
-import com.timothy.themoviedb.splash_api.data.ConfigEntity
+import com.timothy.themoviedb.home_api.data.MovieDao
+import com.timothy.themoviedb.home_api.data.MovieEntity
 import javax.inject.Inject
 
-class ConfigLocalDataSource @Inject constructor(private val dao: ConfigDao) {
+class MovieLocalDataSource @Inject constructor(private val dao: MovieDao) {
 
-    suspend fun getConfig() = dao.getConfig()
+    fun getMovies() = dao.getMoviesFlow()
 
-    suspend fun saveConfig(entity: ConfigEntity) = dao.deleteThenInsert(entity)
+    suspend fun saveMovies(entities: List<MovieEntity>, page: Int) {
+        if (page == 1) {
+            dao.deleteThenInsert(entities)
+        } else {
+            dao.insert(entities)
+        }
+    }
 }

@@ -14,15 +14,17 @@
  * limitations under the License.
  */
 
-package com.timothy.themoviedb.splash_impl.data
+package com.timothy.themoviedb.core.paging
 
-import com.timothy.themoviedb.splash_api.data.ConfigDao
-import com.timothy.themoviedb.splash_api.data.ConfigEntity
-import javax.inject.Inject
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 
-class ConfigLocalDataSource @Inject constructor(private val dao: ConfigDao) {
+@Serializable
+data class PagedResponse<T>(
+    val page: Int,
+    val results: List<T>,
+    @SerialName("total_pages") val totalPage: Int
+) {
 
-    suspend fun getConfig() = dao.getConfig()
-
-    suspend fun saveConfig(entity: ConfigEntity) = dao.deleteThenInsert(entity)
+    fun getNextPage() = if (page < totalPage) page + 1 else -1
 }

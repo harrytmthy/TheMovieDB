@@ -14,29 +14,30 @@
  * limitations under the License.
  */
 
-package com.timothy.themoviedb.splash_api.data
+package com.timothy.themoviedb.home_api.data
 
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import androidx.room.Transaction
+import kotlinx.coroutines.flow.Flow
 
 @Dao
-interface ConfigDao {
+interface MovieDao {
 
-    @Query("SELECT * FROM ConfigEntity")
-    suspend fun getConfig(): ConfigEntity
+    @Query("SELECT * FROM MovieEntity")
+    fun getMoviesFlow(): Flow<List<MovieEntity>>
 
-    @Query("DELETE FROM ConfigEntity")
+    @Query("DELETE FROM MovieEntity")
     suspend fun delete()
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insert(entity: ConfigEntity)
+    suspend fun insert(entities: List<MovieEntity>)
 
     @Transaction
-    suspend fun deleteThenInsert(entity: ConfigEntity) {
+    suspend fun deleteThenInsert(entities: List<MovieEntity>) {
         delete()
-        insert(entity)
+        insert(entities)
     }
 }

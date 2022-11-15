@@ -14,15 +14,18 @@
  * limitations under the License.
  */
 
-package com.timothy.themoviedb.splash_impl.data
+package com.timothy.themoviedb.home_impl.domain
 
-import com.timothy.themoviedb.splash_api.data.ConfigDao
-import com.timothy.themoviedb.splash_api.data.ConfigEntity
+import com.timothy.themoviedb.core.usecases.FlowUseCase
+import com.timothy.themoviedb.home_api.domain.MovieRepository
+import com.timothy.themoviedb.ui.ext.toResult
 import javax.inject.Inject
 
-class ConfigLocalDataSource @Inject constructor(private val dao: ConfigDao) {
+class GetNextPage @Inject constructor(
+    private val repository: MovieRepository
+) : FlowUseCase<GetNextPage.Params, Int>() {
 
-    suspend fun getConfig() = dao.getConfig()
+    override fun execute(params: Params) = repository.getNextPage(params.page).toResult()
 
-    suspend fun saveConfig(entity: ConfigEntity) = dao.deleteThenInsert(entity)
+    data class Params(val page: Int)
 }

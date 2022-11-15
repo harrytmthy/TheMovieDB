@@ -46,4 +46,8 @@ object AppModule {
     @Singleton
     @Provides
     fun provideConfigurationDao(db: TheMovieDbDatabase) = db.configurationDao()
+
+    @Singleton
+    @Provides
+    fun provideMovieDao(db: TheMovieDbDatabase) = db.movieDao()
 }

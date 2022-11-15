@@ -14,15 +14,17 @@
  * limitations under the License.
  */
 
-package com.timothy.themoviedb.splash_impl.data
+package com.timothy.themoviedb.home_impl.data
 
-import com.timothy.themoviedb.splash_api.data.ConfigDao
-import com.timothy.themoviedb.splash_api.data.ConfigEntity
-import javax.inject.Inject
+import com.timothy.themoviedb.core.paging.PagedResponse
+import com.timothy.themoviedb.network.handler.ApiResponse
+import retrofit2.http.GET
+import retrofit2.http.Query
 
-class ConfigLocalDataSource @Inject constructor(private val dao: ConfigDao) {
+interface MovieService {
 
-    suspend fun getConfig() = dao.getConfig()
-
-    suspend fun saveConfig(entity: ConfigEntity) = dao.deleteThenInsert(entity)
+    @GET("movie/popular")
+    suspend fun getPopularMovies(
+        @Query("page") page: Int
+    ): ApiResponse<PagedResponse<MovieResponse>>
 }
