@@ -21,6 +21,12 @@ android {
         vectorDrawables.useSupportLibrary = true
 
         missingDimensionStrategy("environment", "release")
+
+        javaCompileOptions {
+            annotationProcessorOptions {
+                arguments += mapOf("room.schemaLocation" to "$projectDir/schemas")
+            }
+        }
     }
 
     buildFeatures {

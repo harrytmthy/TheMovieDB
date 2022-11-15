@@ -17,10 +17,11 @@
 package com.timothy.themoviedb.home_api.data
 
 import androidx.room.Entity
+import androidx.room.PrimaryKey
 
 @Entity
 data class MovieEntity(
-    val id: Long,
+    @PrimaryKey val id: Long,
     val title: String,
     val overview: String,
     val popularity: Double,

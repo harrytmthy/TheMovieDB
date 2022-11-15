@@ -51,13 +51,14 @@ class HomeViewModel @Inject constructor(
             action.getNextPage(nextPage).collect { result ->
                 when (result) {
                     is Loading -> updateViewState {
-                        copy(loading = nextPage == 1, loadingNext = nextPage > 1)
+                        copy(loading = nextPage == 1, loadingNext = nextPage > 1, error = false)
                     }
                     is Success -> updateViewState {
                         copy(loading = false, loadingNext = false, nextPage = result.data)
                     }
                     is Error -> {
-                        updateViewState { copy(loading = false, loadingNext = false) }
+                        updateViewState { copy(loading = false, loadingNext = false, error = true) }
+                        if (nextPage == 1) return@collect
                         errorSnackbar(result.message)
                     }
                 }

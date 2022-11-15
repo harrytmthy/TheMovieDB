@@ -22,10 +22,13 @@ import com.timothy.themoviedb.core.Result.Success
 import com.timothy.themoviedb.core.test.MainDispatcherTest
 import com.timothy.themoviedb.home_api.HomeAction
 import com.timothy.themoviedb.home_impl.data.HomeTestData.MOVIES
+import com.timothy.themoviedb.home_impl.ui.HomeViewState.Companion.create
 import com.timothy.themoviedb.ui.ext.getErrorMessage
 import io.mockk.MockKAnnotations
 import io.mockk.every
 import io.mockk.impl.annotations.RelaxedMockK
+import io.mockk.mockkObject
+import io.mockk.unmockkObject
 import kotlinx.coroutines.flow.flowOf
 import org.amshove.kluent.shouldBeEqualTo
 import org.junit.Before
@@ -51,12 +54,23 @@ class HomeViewModelTest : MainDispatcherTest() {
     }
 
     @Test
-    fun `getNextPage when loading should emit loading state`() {
+    fun `getNextPage on first page when loading should emit loading state`() {
         every { action.getNextPage(any()) } returns flowOf(Loading)
 
         val viewModel = HomeViewModel(action)
 
         viewModel.viewState.value.loading shouldBeEqualTo true
+    }
+
+    @Test
+    fun `getNextPage on second page when loading should emit loading next state`() {
+        givenViewState(initialState = create().copy(nextPage = 2)) {
+            every { action.getNextPage(any()) } returns flowOf(Loading)
+
+            val viewModel = HomeViewModel(action)
+
+            viewModel.viewState.value.loadingNext shouldBeEqualTo true
+        }
     }
 
     @Test
@@ -69,11 +83,35 @@ class HomeViewModelTest : MainDispatcherTest() {
     }
 
     @Test
-    fun `getNextPage when error should show error snackbar`() {
+    fun `getNextPage on first page when error should not show error snackbar`() {
         every { action.getNextPage(any()) } returns flowOf(Error(message = "Aww snap!"))
 
         val viewModel = HomeViewModel(action)
 
-        viewModel.snackbarMessage.getErrorMessage() shouldBeEqualTo "Aww snap!"
+        viewModel.snackbarMessage.getErrorMessage() shouldBeEqualTo null
+    }
+
+    @Test
+    fun `getNextPage on third page when error should show error snackbar`() {
+        givenViewState(initialState = create().copy(nextPage = 3)) {
+            every { action.getNextPage(any()) } returns flowOf(Error(message = "Aww snap!"))
+
+            val viewModel = HomeViewModel(action)
+
+            viewModel.snackbarMessage.getErrorMessage() shouldBeEqualTo "Aww snap!"
+        }
+    }
+
+    /**
+     * Inject initial values to HomeViewState by stubbing the `create()` function.
+     */
+    private inline fun givenViewState(
+        initialState: HomeViewState,
+        crossinline testBlock: () -> Unit
+    ) {
+        mockkObject(HomeViewState)
+        every { create() } returns initialState
+        testBlock()
+        unmockkObject(HomeViewState)
     }
 }
