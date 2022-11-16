@@ -22,7 +22,7 @@ import com.timothy.themoviedb.splash_api.domain.ConfigRepository
 import io.mockk.every
 import io.mockk.mockk
 import kotlinx.coroutines.flow.flowOf
-import kotlinx.coroutines.flow.single
+import kotlinx.coroutines.flow.last
 import kotlinx.coroutines.test.runTest
 import org.amshove.kluent.shouldBeEqualTo
 import org.junit.Test
@@ -34,7 +34,7 @@ class GetConfigUseCaseTest {
         val repository = mockk<ConfigRepository>()
         every { repository.getConfig() } returns flowOf(true)
 
-        val result = GetConfigUseCase(repository).invoke().single()
+        val result = GetConfigUseCase(repository).invoke().last()
 
         result.data shouldBeEqualTo true
     }
