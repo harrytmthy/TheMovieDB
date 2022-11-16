@@ -14,17 +14,10 @@
  * limitations under the License.
  */
 
-package com.timothy.themoviedb.splash_impl.data
+package com.timothy.themoviedb.home_impl.ui
 
-import com.timothy.themoviedb.splash_api.data.ConfigDao
-import com.timothy.themoviedb.splash_api.data.ConfigEntity
-import javax.inject.Inject
+import com.timothy.themoviedb.ui.base.Navigation
 
-class ConfigLocalDataSource @Inject constructor(private val dao: ConfigDao) {
-
-    suspend fun getConfig() = dao.getConfig()
-
-    suspend fun hasConfig() = dao.hasConfig()
-
-    suspend fun saveConfig(entity: ConfigEntity) = dao.deleteThenInsert(entity)
+sealed class HomeNavigation : Navigation() {
+    data class MovieDetail(val movieId: Int) : HomeNavigation()
 }

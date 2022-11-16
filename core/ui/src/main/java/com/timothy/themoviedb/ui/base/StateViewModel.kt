@@ -28,7 +28,7 @@ abstract class StateViewModel<S : ViewState>(initialState: S) : BaseViewModel() 
     private val _viewState = MutableStateFlow(initialState)
     val viewState = _viewState.asStateFlow()
 
-    fun getCurrentState() = _viewState.asLiveData()
+    fun getViewState() = _viewState.asLiveData()
 
     protected fun updateViewState(reducer: S.() -> S) = viewModelScope.launch {
         _viewState.update(reducer)

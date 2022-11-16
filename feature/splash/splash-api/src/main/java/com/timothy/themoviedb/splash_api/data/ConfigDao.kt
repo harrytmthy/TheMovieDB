@@ -28,6 +28,9 @@ interface ConfigDao {
     @Query("SELECT * FROM ConfigEntity")
     suspend fun getConfig(): ConfigEntity
 
+    @Query("SELECT EXISTS(SELECT * FROM ConfigEntity)")
+    suspend fun hasConfig(): Boolean
+
     @Query("DELETE FROM ConfigEntity")
     suspend fun delete()
 

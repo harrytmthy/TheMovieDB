@@ -28,8 +28,12 @@ class ConfigRepositoryImpl @Inject constructor(
 ) : ConfigRepository {
 
     override fun getConfig() = flow {
-        val response = networkDataSource.getConfig()
-        localDataSource.saveConfig(response.config.toEntity())
-        emit(true)
+        if (localDataSource.hasConfig()) {
+            emit(true)
+        } else {
+            val response = networkDataSource.getConfig()
+            localDataSource.saveConfig(response.config.toEntity())
+            emit(true)
+        }
     }
 }

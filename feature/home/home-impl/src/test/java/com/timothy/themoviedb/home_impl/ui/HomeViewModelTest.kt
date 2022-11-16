@@ -22,8 +22,10 @@ import com.timothy.themoviedb.core.Result.Success
 import com.timothy.themoviedb.core.test.MainDispatcherTest
 import com.timothy.themoviedb.home_api.ui.HomeAction
 import com.timothy.themoviedb.home_impl.data.HomeTestData.MOVIES
+import com.timothy.themoviedb.home_impl.ui.HomeNavigation.MovieDetail
 import com.timothy.themoviedb.home_impl.ui.HomeViewState.Companion.create
 import com.timothy.themoviedb.ui.ext.getErrorMessage
+import com.timothy.themoviedb.ui.ext.value
 import io.mockk.MockKAnnotations
 import io.mockk.every
 import io.mockk.impl.annotations.RelaxedMockK
@@ -100,6 +102,15 @@ class HomeViewModelTest : MainDispatcherTest() {
 
             viewModel.snackbarMessage.getErrorMessage() shouldBeEqualTo "Aww snap!"
         }
+    }
+
+    @Test
+    fun `navigateToMovieDetail should navigate to MovieDetail`() {
+        val viewModel = HomeViewModel(action)
+
+        viewModel.navigateToMovieDetail(movieId = 123)
+
+        viewModel.navigation.value() shouldBeEqualTo MovieDetail(movieId = 123)
     }
 
     /**

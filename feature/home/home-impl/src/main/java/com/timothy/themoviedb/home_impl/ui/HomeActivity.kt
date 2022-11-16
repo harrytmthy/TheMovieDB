@@ -31,10 +31,20 @@ class HomeActivity : BaseActivity() {
 
     private val viewModel by viewModels<HomeViewModel>()
 
+    private val controller by lazy { HomeEpoxyController(viewModel::navigateToMovieDetail) }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(binding.root)
-        binding.toolbar.bind(this, R.string.home_title)
+        setupUi()
         observeSnackbarEvent(viewModel.snackbarMessage, view = binding.root)
+        observeViewState()
     }
+
+    private fun setupUi() {
+        binding.toolbar.bind(this, R.string.home_title)
+        binding.rvContent.setController(controller)
+        setContentView(binding.root)
+    }
+
+    private fun observeViewState() = viewModel.getViewState().observe(this, controller::setData)
 }

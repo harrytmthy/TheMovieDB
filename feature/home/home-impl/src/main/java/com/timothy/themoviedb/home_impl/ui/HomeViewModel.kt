@@ -65,4 +65,10 @@ class HomeViewModel @Inject constructor(
             }
         }
     }
+
+    fun navigateToMovieDetail(movieId: Int) {
+        viewModelScope.launch {
+            navigateTo(HomeNavigation.MovieDetail(movieId))
+        }
+    }
 }

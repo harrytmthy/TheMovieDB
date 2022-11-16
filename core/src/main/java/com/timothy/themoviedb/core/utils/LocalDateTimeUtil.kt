@@ -16,6 +16,7 @@
 
 package com.timothy.themoviedb.core.utils
 
+import org.threeten.bp.LocalDate
 import org.threeten.bp.LocalDateTime
 import org.threeten.bp.ZoneId
 import org.threeten.bp.ZoneOffset
@@ -23,9 +24,16 @@ import org.threeten.bp.format.DateTimeFormatter
 
 object LocalDateTimeUtil {
 
-    fun getLocalDate(date: String) = DateTimeFormatter.ofPattern("yyyy-MM-dd")
-        .parse(date, LocalDateTime::from)
-        .atZone(ZoneOffset.UTC)
-        .withZoneSameInstant(ZoneId.systemDefault())
-        .toLocalDate()
+    private const val DATE_PATTERN_LENGTH = 10
+
+    private const val TIME_PADDING = "00:00:00 UTC"
+
+    fun getLocalDate(date: String): LocalDate {
+        val dateTime = if (date.length == DATE_PATTERN_LENGTH) "$date $TIME_PADDING" else date
+        return DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss 'UTC'")
+            .parse(dateTime, LocalDateTime::from)
+            .atZone(ZoneOffset.UTC)
+            .withZoneSameInstant(ZoneId.systemDefault())
+            .toLocalDate()
+    }
 }

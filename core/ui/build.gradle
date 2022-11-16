@@ -23,7 +23,6 @@ dependencies {
     implementation libs.airbnb.deeplink
     kapt libs.airbnb.deeplinkProcessor
     api libs.airbnb.epoxy
-    kapt libs.airbnb.epoxyProcessor
     api libs.glide
     kapt libs.glideCompiler
     api libs.google.material

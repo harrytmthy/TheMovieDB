@@ -14,4 +14,6 @@ android {
 
 dependencies {
     implementation project(":core:ui")
+    implementation libs.airbnb.epoxy
+    kapt libs.airbnb.epoxyProcessor
 }
