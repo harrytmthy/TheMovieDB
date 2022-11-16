@@ -27,11 +27,14 @@ import io.mockk.MockKAnnotations
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import kotlinx.coroutines.flow.flowOf
+import kotlinx.coroutines.test.StandardTestDispatcher
+import kotlinx.coroutines.test.advanceUntilIdle
+import kotlinx.coroutines.test.runTest
 import org.amshove.kluent.shouldBeEqualTo
 import org.junit.Before
 import org.junit.Test
 
-class SplashViewModelTest : MainDispatcherTest() {
+class SplashViewModelTest : MainDispatcherTest(testDispatcher = StandardTestDispatcher()) {
 
     @MockK
     private lateinit var action: SplashAction
@@ -42,19 +45,21 @@ class SplashViewModelTest : MainDispatcherTest() {
     }
 
     @Test
-    fun `getConfig when success should navigate to Home`() {
+    fun `getConfig when success should navigate to Home`() = runTest {
         every { action.getConfig() } returns flowOf(Success(true))
 
-        val viewModel = SplashViewModel(action)
+        val viewModel = SplashViewModel(action, testDispatcher)
+        advanceUntilIdle()
 
         viewModel.navigation.value() shouldBeEqualTo Home
     }
 
     @Test
-    fun `getConfig when error should display snackbar`() {
+    fun `getConfig when error should display snackbar`() = runTest {
         every { action.getConfig() } returns flowOf(Error(message = "Error!"))
 
-        val viewModel = SplashViewModel(action)
+        val viewModel = SplashViewModel(action, testDispatcher)
+        advanceUntilIdle()
 
         viewModel.snackbarMessage.getErrorMessage() shouldBeEqualTo "Error!"
     }

@@ -19,15 +19,23 @@ package com.timothy.themoviedb.splash_impl.ui
 import androidx.lifecycle.viewModelScope
 import com.timothy.themoviedb.core.Result.Error
 import com.timothy.themoviedb.core.Result.Loading.data
+import com.timothy.themoviedb.core.qualifiers.DefaultDispatcher
 import com.timothy.themoviedb.splash_api.ui.SplashAction
 import com.timothy.themoviedb.splash_impl.ui.SplashNavigation.Home
 import com.timothy.themoviedb.ui.base.BaseViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 @HiltViewModel
-class SplashViewModel @Inject constructor(private val action: SplashAction) : BaseViewModel() {
+class SplashViewModel @Inject constructor(
+    private val action: SplashAction,
+    @DefaultDispatcher private val dispatcher: CoroutineDispatcher
+) : BaseViewModel() {
 
     init {
         getConfig()
@@ -37,10 +45,23 @@ class SplashViewModel @Inject constructor(private val action: SplashAction) : Ba
         viewModelScope.launch {
             action.getConfig().collect { result ->
                 when {
-                    result.data == true -> navigateTo(Home)
+                    result.data == true -> navigateToHomeAfterDelay()
                     result is Error -> errorSnackbar(result.message)
                 }
             }
         }
+    }
+
+    private fun navigateToHomeAfterDelay() {
+        viewModelScope.launch(dispatcher) {
+            delay(SPLASH_DELAY)
+            withContext(Dispatchers.Main) {
+                navigateTo(Home)
+            }
+        }
+    }
+
+    companion object {
+        private const val SPLASH_DELAY = 1000L
     }
 }

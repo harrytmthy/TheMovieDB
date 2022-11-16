@@ -19,14 +19,11 @@ package com.timothy.themoviedb.splash_impl.domain
 import com.timothy.themoviedb.core.usecases.FlowUseCase
 import com.timothy.themoviedb.splash_api.domain.ConfigRepository
 import com.timothy.themoviedb.ui.ext.toResult
-import kotlinx.coroutines.flow.debounce
 import javax.inject.Inject
 
 class GetConfigUseCase @Inject constructor(
     private val repository: ConfigRepository
 ) : FlowUseCase<Unit, Boolean>() {
 
-    override fun execute(params: Unit) = repository.getConfig()
-        .debounce(1000L)
-        .toResult()
+    override fun execute(params: Unit) = repository.getConfig().toResult()
 }

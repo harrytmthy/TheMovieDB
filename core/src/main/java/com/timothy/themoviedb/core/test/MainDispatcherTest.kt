@@ -25,7 +25,9 @@ import org.junit.Rule
  * A base Unit Test class which enforces some rules that keep all tests running on Dispatchers.Main.
  * Please use either `StandardTestDispatcher` or `UnconfinedTestDispatcher`.
  */
-abstract class MainDispatcherTest(dispatcher: TestDispatcher = UnconfinedTestDispatcher()) {
+abstract class MainDispatcherTest(
+    protected val testDispatcher: TestDispatcher = UnconfinedTestDispatcher()
+) {
 
     /**
      * Executes Architecture Components tasks in the same thread.
@@ -37,5 +39,5 @@ abstract class MainDispatcherTest(dispatcher: TestDispatcher = UnconfinedTestDis
      * Overrides Coroutines Dispatchers.Main.
      */
     @get:Rule
-    val coroutineRule = MainCoroutineRule(dispatcher)
+    val coroutineRule = MainCoroutineRule(testDispatcher)
 }
