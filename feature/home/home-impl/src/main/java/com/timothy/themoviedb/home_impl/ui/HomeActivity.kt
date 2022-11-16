@@ -14,43 +14,27 @@
  * limitations under the License.
  */
 
-package com.timothy.themoviedb.splash_impl.ui
+package com.timothy.themoviedb.home_impl.ui
 
 import android.os.Bundle
 import androidx.activity.viewModels
-import com.timothy.themoviedb.home_api.ui.HomeDestination
-import com.timothy.themoviedb.splash_impl.databinding.ActivitySplashBinding
-import com.timothy.themoviedb.splash_impl.ui.SplashNavigation.Home
+import com.timothy.themoviedb.home_impl.R
+import com.timothy.themoviedb.home_impl.databinding.ActivityHomeBinding
 import com.timothy.themoviedb.ui.base.BaseActivity
-import com.timothy.themoviedb.ui.ext.observeEvent
 import com.timothy.themoviedb.ui.ext.viewBinding
 import dagger.hilt.android.AndroidEntryPoint
-import javax.inject.Inject
 
 @AndroidEntryPoint
-class SplashActivity : BaseActivity() {
+class HomeActivity : BaseActivity() {
 
-    private val binding by viewBinding(ActivitySplashBinding::inflate)
+    private val binding by viewBinding(ActivityHomeBinding::inflate)
 
-    private val viewModel by viewModels<SplashViewModel>()
-
-    @Inject
-    lateinit var homeDestination: HomeDestination
+    private val viewModel by viewModels<HomeViewModel>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
-        observeNavigation()
+        binding.toolbar.bind(this, R.string.home_title)
         observeSnackbarEvent(viewModel.snackbarMessage, view = binding.root)
-    }
-
-    private fun observeNavigation() {
-        viewModel.navigation.observeEvent(this) { navigation ->
-            if (navigation is Home) {
-                val intent = homeDestination.createHomeIntent(this)
-                startActivity(intent)
-                finishAffinity()
-            }
-        }
     }
 }

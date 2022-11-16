@@ -14,11 +14,13 @@
  * limitations under the License.
  */
 
-package com.timothy.themoviedb.splash_api.ui
+package com.timothy.themoviedb.home_api.ui
 
-import android.content.Context
-import android.content.Intent
+import com.timothy.themoviedb.core.Result
+import com.timothy.themoviedb.home_api.domain.Movie
+import kotlinx.coroutines.flow.Flow
 
-interface SplashNavigation {
-    fun createSplashIntent(context: Context): Intent
+interface HomeAction {
+    fun getNextPage(page: Int): Flow<Result<Int>>
+    fun observeMovies(): Flow<List<Movie>>
 }

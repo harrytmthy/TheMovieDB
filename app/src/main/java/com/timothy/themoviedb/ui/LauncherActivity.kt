@@ -18,7 +18,7 @@ package com.timothy.themoviedb.ui
 
 import android.os.Bundle
 import androidx.activity.viewModels
-import com.timothy.themoviedb.splash_api.ui.SplashNavigation
+import com.timothy.themoviedb.splash_api.ui.SplashDestination
 import com.timothy.themoviedb.ui.LauncherNavigation.Splash
 import com.timothy.themoviedb.ui.base.BaseActivity
 import com.timothy.themoviedb.ui.ext.observeEvent
@@ -31,7 +31,7 @@ class LauncherActivity : BaseActivity() {
     private val viewModel by viewModels<LauncherViewModel>()
 
     @Inject
-    lateinit var splashNavigation: SplashNavigation
+    lateinit var splashDestination: SplashDestination
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -41,7 +41,7 @@ class LauncherActivity : BaseActivity() {
     private fun observeNavigation() {
         viewModel.navigation.observeEvent(this) { navigation ->
             if (navigation !is Splash) return@observeEvent
-            val intent = splashNavigation.createSplashIntent(this)
+            val intent = splashDestination.createSplashIntent(this)
             startActivity(intent)
             finishAffinity()
         }

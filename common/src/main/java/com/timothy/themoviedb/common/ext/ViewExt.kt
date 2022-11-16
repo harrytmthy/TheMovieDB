@@ -6,7 +6,7 @@
  * You may obtain a copy of the License at
  *
  *     https://www.apache.org/licenses/LICENSE-2.0
- *
+ *  
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -20,21 +20,21 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 
 inline fun RecyclerView.addLoadMoreListener(
-    prefetchDistance: Int = 2,
+    prefetchOffset: Int = 2,
     crossinline shouldLoadMore: () -> Boolean,
     crossinline onLoadMore: () -> Unit
 ) = addOnScrollListener(
     object : RecyclerView.OnScrollListener() {
         override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
             super.onScrolled(recyclerView, dx, dy)
-            if (!isScrolledToLast(prefetchDistance) || !shouldLoadMore()) return
+            if (!isScrolledToLast(prefetchOffset) || !shouldLoadMore()) return
             onLoadMore()
         }
     }
 )
 
-fun RecyclerView.isScrolledToLast(prefetchDistance: Int): Boolean {
+fun RecyclerView.isScrolledToLast(prefetchOffset: Int): Boolean {
     val lm = (layoutManager as? LinearLayoutManager) ?: return false
     val lastVisibleItemPosition = lm.findLastVisibleItemPosition()
-    return lm.itemCount > 1 && lastVisibleItemPosition >= lm.itemCount - prefetchDistance - 1
+    return lm.itemCount > 1 && lastVisibleItemPosition >= lm.itemCount - prefetchOffset - 1
 }

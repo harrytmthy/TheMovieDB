@@ -14,19 +14,11 @@
  * limitations under the License.
  */
 
-package com.timothy.themoviedb.splash_impl.domain
+package com.timothy.themoviedb.home_api.ui
 
-import com.timothy.themoviedb.core.usecases.FlowUseCase
-import com.timothy.themoviedb.splash_api.domain.ConfigRepository
-import com.timothy.themoviedb.ui.ext.toResult
-import kotlinx.coroutines.flow.debounce
-import javax.inject.Inject
+import android.content.Context
+import android.content.Intent
 
-class GetConfigUseCase @Inject constructor(
-    private val repository: ConfigRepository
-) : FlowUseCase<Unit, Boolean>() {
-
-    override fun execute(params: Unit) = repository.getConfig()
-        .debounce(1000L)
-        .toResult()
+interface HomeDestination {
+    fun createHomeIntent(context: Context): Intent
 }

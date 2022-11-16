@@ -79,6 +79,7 @@ allprojects {
         kotlinOptions.freeCompilerArgs += buildString {
             append("-opt-in=")
             append("kotlinx.coroutines.ExperimentalCoroutinesApi,")
+            append("kotlinx.coroutines.FlowPreview,")
             append("kotlinx.serialization.ExperimentalSerializationApi")
         }
     }

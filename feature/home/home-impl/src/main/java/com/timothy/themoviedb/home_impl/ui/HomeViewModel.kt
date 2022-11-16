@@ -20,7 +20,7 @@ import androidx.lifecycle.viewModelScope
 import com.timothy.themoviedb.core.Result.Error
 import com.timothy.themoviedb.core.Result.Loading
 import com.timothy.themoviedb.core.Result.Success
-import com.timothy.themoviedb.home_api.HomeAction
+import com.timothy.themoviedb.home_api.ui.HomeAction
 import com.timothy.themoviedb.home_impl.ui.HomeViewState.Companion.create
 import com.timothy.themoviedb.ui.base.StateViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel

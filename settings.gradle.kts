@@ -41,3 +41,4 @@ include(
     ":feature:home:home-api",
     ":feature:home:home-impl"
 )
+include(":common")

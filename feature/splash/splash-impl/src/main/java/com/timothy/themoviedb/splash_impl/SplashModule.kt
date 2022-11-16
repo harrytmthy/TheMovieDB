@@ -22,7 +22,7 @@ import com.timothy.themoviedb.core.usecases.invoke
 import com.timothy.themoviedb.splash_api.data.ConfigDataSource
 import com.timothy.themoviedb.splash_api.domain.ConfigRepository
 import com.timothy.themoviedb.splash_api.ui.SplashAction
-import com.timothy.themoviedb.splash_api.ui.SplashNavigation
+import com.timothy.themoviedb.splash_api.ui.SplashDestination
 import com.timothy.themoviedb.splash_impl.data.ConfigLocalDataSource
 import com.timothy.themoviedb.splash_impl.data.ConfigRepositoryImpl
 import com.timothy.themoviedb.splash_impl.data.ConfigService
@@ -61,7 +61,7 @@ object SplashModule {
 
     @Singleton
     @Provides
-    fun provideSplashNavigation() = object : SplashNavigation {
+    fun provideSplashDestination() = object : SplashDestination {
         override fun createSplashIntent(context: Context): Intent {
             return Intent(context, SplashActivity::class.java)
         }
