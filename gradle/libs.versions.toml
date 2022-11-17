@@ -43,7 +43,7 @@ airbnb-epoxy = { module = "com.airbnb.android:epoxy", version.ref = "epoxy" }
 airbnb-epoxyPaging = { module = "com.airbnb.android:epoxy-paging", version.ref = "epoxy" }
 airbnb-epoxyProcessor = { module = "com.airbnb.android:epoxy-processor", version.ref = "epoxy" }
 glide = { module = "com.github.bumptech.glide:glide", version.ref = "glide" }
-glideCompiler = { module = "com.github.bumptech.glide:glide", version.ref = "glide" }
+glideCompiler = { module = "com.github.bumptech.glide:compiler", version.ref = "glide" }
 google-material = "com.google.android.material:material:1.7.0"
 google-hilt-android = { module = "com.google.dagger:hilt-android", version.ref = "hilt" }
 google-hilt-androidCompiler = { module = "com.google.dagger:hilt-android-compiler", version.ref = "hilt" }

@@ -35,6 +35,7 @@ class HomeActivity : BaseActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        setContentView(binding.root)
         setupUi()
         observeSnackbarEvent(viewModel.snackbarMessage, view = binding.root)
         observeViewState()
@@ -42,9 +43,13 @@ class HomeActivity : BaseActivity() {
 
     private fun setupUi() {
         binding.toolbar.bind(this, R.string.home_title)
+        binding.srlContent.setOnRefreshListener(viewModel::refresh)
         binding.rvContent.setController(controller)
-        setContentView(binding.root)
     }
 
-    private fun observeViewState() = viewModel.getViewState().observe(this, controller::setData)
+    private fun observeViewState() = viewModel.getViewState().observe(this) { viewState ->
+        binding.srlContent.isEnabled = !viewState.loading
+        binding.srlContent.isRefreshing = viewState.refreshing
+        controller.setData(viewState)
+    }
 }

@@ -18,20 +18,31 @@ package com.timothy.themoviedb.home_impl.ui
 
 import com.timothy.themoviedb.common.layout.emptyLayout
 import com.timothy.themoviedb.common.layout.loadingLayout
+import com.timothy.themoviedb.home_api.domain.Movie
+import com.timothy.themoviedb.home_impl.ui.epoxy.movieItem
 import com.timothy.themoviedb.ui.base.BaseEpoxyController
 
 class HomeEpoxyController(
-    private val onItemClick: (movieId: Int) -> Unit
+    private val onItemClick: (movieId: Long) -> Unit
 ) : BaseEpoxyController<HomeViewState>() {
 
     override fun buildModels(state: HomeViewState) {
         when {
             state.loading -> renderLoadingState()
             state.movies.isEmpty() -> renderEmptyState()
+            else -> renderSuccessState(state.movies)
         }
     }
 
     private fun renderLoadingState() = loadingLayout { id("home-loading-layout") }
 
     private fun renderEmptyState() = emptyLayout { id("home-empty-layout") }
+
+    private fun renderSuccessState(movies: List<Movie>) = movies.forEachIndexed { index, movie ->
+        movieItem {
+            id("home-movie-item-$index")
+            data(movie)
+            onItemClick(this@HomeEpoxyController.onItemClick)
+        }
+    }
 }

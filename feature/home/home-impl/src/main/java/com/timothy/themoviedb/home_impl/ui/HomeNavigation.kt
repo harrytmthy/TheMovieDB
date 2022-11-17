@@ -19,5 +19,5 @@ package com.timothy.themoviedb.home_impl.ui
 import com.timothy.themoviedb.ui.base.Navigation
 
 sealed class HomeNavigation : Navigation() {
-    data class MovieDetail(val movieId: Int) : HomeNavigation()
+    data class MovieDetail(val movieId: Long) : HomeNavigation()
 }

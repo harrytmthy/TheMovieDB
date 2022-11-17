@@ -31,6 +31,7 @@ import io.mockk.every
 import io.mockk.impl.annotations.RelaxedMockK
 import io.mockk.mockkObject
 import io.mockk.unmockkObject
+import io.mockk.verify
 import kotlinx.coroutines.flow.flowOf
 import org.amshove.kluent.shouldBeEqualTo
 import org.junit.Before
@@ -102,6 +103,16 @@ class HomeViewModelTest : MainDispatcherTest() {
 
             viewModel.snackbarMessage.getErrorMessage() shouldBeEqualTo "Aww snap!"
         }
+    }
+
+    @Test
+    fun `refresh should call getNextPage which loads the first page`() {
+        val viewModel = HomeViewModel(action)
+
+        viewModel.refresh()
+
+        verify { action.getNextPage(page = 1) }
+        viewModel.viewState.value.refreshing shouldBeEqualTo true
     }
 
     @Test

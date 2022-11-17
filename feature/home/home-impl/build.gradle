@@ -20,6 +20,7 @@ dependencies {
     implementation project(":core:ui")
     implementation project(":feature:home:home-api")
     implementation project(":feature:splash:splash-api")
+    kapt libs.airbnb.epoxyProcessor
     implementation libs.android.swipeRefresh
     implementation libs.google.hilt.android
     kapt libs.google.hilt.androidCompiler

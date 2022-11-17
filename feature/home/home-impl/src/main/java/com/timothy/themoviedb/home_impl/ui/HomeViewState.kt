@@ -22,6 +22,7 @@ import com.timothy.themoviedb.ui.base.ViewState
 data class HomeViewState(
     val loading: Boolean,
     val loadingNext: Boolean,
+    val refreshing: Boolean,
     val error: Boolean,
     val nextPage: Int,
     val movies: List<Movie>,
@@ -31,6 +32,7 @@ data class HomeViewState(
         fun create() = HomeViewState(
             loading = false,
             loadingNext = false,
+            refreshing = false,
             error = false,
             nextPage = 1,
             movies = emptyList()

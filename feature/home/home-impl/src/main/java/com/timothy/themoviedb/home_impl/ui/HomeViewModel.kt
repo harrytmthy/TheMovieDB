@@ -21,6 +21,7 @@ import com.timothy.themoviedb.core.Result.Error
 import com.timothy.themoviedb.core.Result.Loading
 import com.timothy.themoviedb.core.Result.Success
 import com.timothy.themoviedb.home_api.ui.HomeAction
+import com.timothy.themoviedb.home_impl.ui.HomeNavigation.MovieDetail
 import com.timothy.themoviedb.home_impl.ui.HomeViewState.Companion.create
 import com.timothy.themoviedb.ui.base.StateViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -54,10 +55,22 @@ class HomeViewModel @Inject constructor(
                         copy(loading = nextPage == 1, loadingNext = nextPage > 1, error = false)
                     }
                     is Success -> updateViewState {
-                        copy(loading = false, loadingNext = false, nextPage = result.data)
+                        copy(
+                            loading = false,
+                            loadingNext = false,
+                            refreshing = false,
+                            nextPage = result.data
+                        )
                     }
                     is Error -> {
-                        updateViewState { copy(loading = false, loadingNext = false, error = true) }
+                        updateViewState {
+                            copy(
+                                loading = false,
+                                loadingNext = false,
+                                refreshing = false,
+                                error = true
+                            )
+                        }
                         if (nextPage == 1) return@collect
                         errorSnackbar(result.message)
                     }
@@ -66,9 +79,10 @@ class HomeViewModel @Inject constructor(
         }
     }
 
-    fun navigateToMovieDetail(movieId: Int) {
-        viewModelScope.launch {
-            navigateTo(HomeNavigation.MovieDetail(movieId))
-        }
+    fun refresh() {
+        updateViewState { copy(refreshing = true, nextPage = 1) }
+        getNextPage()
     }
+
+    fun navigateToMovieDetail(movieId: Long) = navigateTo(MovieDetail(movieId))
 }

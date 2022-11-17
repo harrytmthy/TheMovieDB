@@ -16,8 +16,17 @@
 
 package com.timothy.themoviedb.ui.ext
 
+import android.widget.ImageView
+import androidx.annotation.DrawableRes
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.timothy.themoviedb.ui.GlideApp
+
+fun ImageView.loadUrl(url: String, @DrawableRes defaultResId: Int? = null) {
+    val glide = GlideApp.with(context).load(url)
+    defaultResId?.let { glide.error(it) }
+    glide.into(this)
+}
 
 inline fun RecyclerView.addLoadMoreListener(
     prefetchOffset: Int = 2,

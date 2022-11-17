@@ -16,11 +16,13 @@
 
 package com.timothy.themoviedb.core.utils
 
+import org.threeten.bp.DateTimeException
 import org.threeten.bp.LocalDate
 import org.threeten.bp.LocalDateTime
 import org.threeten.bp.ZoneId
 import org.threeten.bp.ZoneOffset
 import org.threeten.bp.format.DateTimeFormatter
+import timber.log.Timber
 
 object LocalDateTimeUtil {
 
@@ -35,5 +37,12 @@ object LocalDateTimeUtil {
             .atZone(ZoneOffset.UTC)
             .withZoneSameInstant(ZoneId.systemDefault())
             .toLocalDate()
+    }
+
+    fun getLocalDateText(localDate: LocalDate) = try {
+        DateTimeFormatter.ofPattern("dd MMM yyyy").format(localDate)
+    } catch (e: DateTimeException) {
+        Timber.e(e)
+        ""
     }
 }
