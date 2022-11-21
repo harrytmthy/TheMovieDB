@@ -18,7 +18,7 @@ package com.timothy.themoviedb.home_impl
 
 import android.content.Context
 import android.content.Intent
-import com.timothy.themoviedb.core.usecases.invoke
+import com.timothy.themoviedb.core.ext.invoke
 import com.timothy.themoviedb.home_api.domain.MovieRepository
 import com.timothy.themoviedb.home_api.ui.HomeAction
 import com.timothy.themoviedb.home_api.ui.HomeDestination

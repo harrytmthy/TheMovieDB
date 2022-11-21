@@ -16,5 +16,6 @@
   -->
 
 <resources>
+    <string name="navigate_up">Navigate Up</string>
     <string name="empty_message">No movie found.</string>
 </resources>

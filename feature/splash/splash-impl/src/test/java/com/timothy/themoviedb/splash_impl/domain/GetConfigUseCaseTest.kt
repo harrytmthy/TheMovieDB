@@ -17,7 +17,7 @@
 package com.timothy.themoviedb.splash_impl.domain
 
 import com.timothy.themoviedb.core.Result.Loading.data
-import com.timothy.themoviedb.core.usecases.invoke
+import com.timothy.themoviedb.core.ext.invoke
 import com.timothy.themoviedb.splash_api.domain.ConfigRepository
 import io.mockk.every
 import io.mockk.mockk

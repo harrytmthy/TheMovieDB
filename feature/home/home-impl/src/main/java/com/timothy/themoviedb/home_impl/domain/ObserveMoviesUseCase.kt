@@ -16,6 +16,7 @@
 
 package com.timothy.themoviedb.home_impl.domain
 
+import com.timothy.themoviedb.core.paging.PagedData
 import com.timothy.themoviedb.core.usecases.DataFlowUseCase
 import com.timothy.themoviedb.home_api.domain.Movie
 import com.timothy.themoviedb.home_api.domain.MovieRepository
@@ -23,7 +24,7 @@ import javax.inject.Inject
 
 class ObserveMoviesUseCase @Inject constructor(
     private val repository: MovieRepository
-) : DataFlowUseCase<Unit, List<Movie>>() {
+) : DataFlowUseCase<Unit, PagedData<Movie>>() {
 
     override fun execute(params: Unit) = repository.getMovies()
 }

@@ -16,9 +16,9 @@
 
 package com.timothy.themoviedb.home_impl.domain
 
-import com.timothy.themoviedb.core.usecases.invoke
+import com.timothy.themoviedb.core.ext.invoke
 import com.timothy.themoviedb.home_api.domain.MovieRepository
-import com.timothy.themoviedb.home_impl.data.HomeTestData.MOVIES
+import com.timothy.themoviedb.home_impl.data.HomeTestData.PAGED_MOVIES
 import io.mockk.every
 import io.mockk.mockk
 import kotlinx.coroutines.flow.flowOf
@@ -32,10 +32,10 @@ class ObserveMoviesUseCaseTest {
     @Test
     fun `invoke should return correct result`() = runTest {
         val repository = mockk<MovieRepository>()
-        every { repository.getMovies() } returns flowOf(MOVIES)
+        every { repository.getMovies() } returns flowOf(PAGED_MOVIES)
 
         val data = ObserveMoviesUseCase(repository).invoke().single()
 
-        data shouldBeEqualTo MOVIES
+        data shouldBeEqualTo PAGED_MOVIES
     }
 }

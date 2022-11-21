@@ -31,7 +31,7 @@ data class MovieResponse(
     @SerialName("poster_path") val posterPath: String?
 ) {
 
-    fun toEntity() = MovieEntity(
+    fun toEntity(nextPage: Int) = MovieEntity(
         id = id ?: 0L,
         title = title.orEmpty(),
         overview = overview.orEmpty(),
@@ -39,5 +39,6 @@ data class MovieResponse(
         releaseDate = releaseDate.orEmpty(),
         backdropPath = backdropPath.orEmpty(),
         posterPath = posterPath.orEmpty(),
+        nextPage = nextPage
     )
 }

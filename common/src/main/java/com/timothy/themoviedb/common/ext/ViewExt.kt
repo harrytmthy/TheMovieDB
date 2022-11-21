@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.timothy.themoviedb.ui.ext
+package com.timothy.themoviedb.common.ext
 
 import android.widget.ImageView
 import androidx.annotation.DrawableRes
@@ -29,14 +29,14 @@ fun ImageView.loadUrl(url: String, @DrawableRes defaultResId: Int? = null) {
 }
 
 inline fun RecyclerView.addLoadMoreListener(
-    prefetchOffset: Int = 2,
-    crossinline shouldLoadMore: () -> Boolean,
-    crossinline onLoadMore: () -> Unit
+    crossinline canLoadMore: () -> Boolean,
+    crossinline onLoadMore: () -> Unit,
+    prefetchOffset: Int = 5
 ) = addOnScrollListener(
     object : RecyclerView.OnScrollListener() {
         override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
             super.onScrolled(recyclerView, dx, dy)
-            if (!isScrolledToLast(prefetchOffset) || !shouldLoadMore()) return
+            if (!isScrolledToLast(prefetchOffset) || !canLoadMore()) return
             onLoadMore()
         }
     }

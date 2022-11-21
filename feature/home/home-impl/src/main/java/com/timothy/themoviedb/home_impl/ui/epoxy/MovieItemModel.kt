@@ -21,11 +21,11 @@ import com.airbnb.epoxy.EpoxyAttribute
 import com.airbnb.epoxy.EpoxyHolder
 import com.airbnb.epoxy.EpoxyModelClass
 import com.airbnb.epoxy.EpoxyModelWithHolder
+import com.timothy.themoviedb.common.ext.loadUrl
 import com.timothy.themoviedb.core.utils.LocalDateTimeUtil.getLocalDateText
 import com.timothy.themoviedb.home_api.domain.Movie
 import com.timothy.themoviedb.home_impl.R
 import com.timothy.themoviedb.home_impl.databinding.ItemMovieListBinding
-import com.timothy.themoviedb.ui.ext.loadUrl
 
 @EpoxyModelClass
 abstract class MovieItemModel : EpoxyModelWithHolder<MovieItemModel.Holder>() {

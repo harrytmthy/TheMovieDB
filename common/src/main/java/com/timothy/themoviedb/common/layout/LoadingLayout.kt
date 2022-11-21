@@ -36,6 +36,8 @@ class LoadingLayout @JvmOverloads constructor(
     init {
         if (isInEditMode) {
             inflate(context, R.layout.layout_loading, this)
+        } else {
+            binding
         }
     }
 }

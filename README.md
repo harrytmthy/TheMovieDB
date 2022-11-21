@@ -16,7 +16,3 @@ To change your local hooks path, need to run following command:
 ```
 git config --local core.hooksPath tools/
 ```
-
-### Code style
-The app uses [ktlint](https://github.com/pinterest/ktlint), provided via
-the [spotless](https://github.com/diffplug/spotless) gradle plugin.

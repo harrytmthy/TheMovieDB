@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "74bf45789edeb122d63bbef77dbe0dce",
+    "identityHash": "4f1da23de0778d42c33d8345c58e76ce",
     "entities": [
       {
         "ftsVersion": "FTS4",
@@ -54,7 +54,7 @@
       },
       {
         "tableName": "MovieEntity",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER NOT NULL, `title` TEXT NOT NULL, `overview` TEXT NOT NULL, `popularity` REAL NOT NULL, `releaseDate` TEXT NOT NULL, `backdropPath` TEXT NOT NULL, `posterPath` TEXT NOT NULL, PRIMARY KEY(`id`))",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER NOT NULL, `title` TEXT NOT NULL, `overview` TEXT NOT NULL, `popularity` REAL NOT NULL, `releaseDate` TEXT NOT NULL, `backdropPath` TEXT NOT NULL, `posterPath` TEXT NOT NULL, `nextPage` INTEGER NOT NULL, PRIMARY KEY(`id`))",
         "fields": [
           {
             "fieldPath": "id",
@@ -97,6 +97,12 @@
             "columnName": "posterPath",
             "affinity": "TEXT",
             "notNull": true
+          },
+          {
+            "fieldPath": "nextPage",
+            "columnName": "nextPage",
+            "affinity": "INTEGER",
+            "notNull": true
           }
         ],
         "primaryKey": {
@@ -112,7 +118,7 @@
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '74bf45789edeb122d63bbef77dbe0dce')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '4f1da23de0778d42c33d8345c58e76ce')"
     ]
   }
 }

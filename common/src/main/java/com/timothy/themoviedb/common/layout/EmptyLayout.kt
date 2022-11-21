@@ -36,6 +36,8 @@ class EmptyLayout @JvmOverloads constructor(
     init {
         if (isInEditMode) {
             inflate(context, R.layout.layout_empty, this)
+        } else {
+            binding
         }
     }
 }

@@ -16,9 +16,10 @@
 
 package com.timothy.themoviedb.home_api.domain
 
+import com.timothy.themoviedb.core.paging.PagedData
 import kotlinx.coroutines.flow.Flow
 
 interface MovieRepository {
-    fun getNextPage(page: Int): Flow<Int>
-    fun getMovies(): Flow<List<Movie>>
+    fun getNextPage(page: Int): Flow<Unit>
+    fun getMovies(): Flow<PagedData<Movie>>
 }

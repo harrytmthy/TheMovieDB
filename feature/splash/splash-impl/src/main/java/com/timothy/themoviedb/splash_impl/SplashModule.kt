@@ -18,7 +18,7 @@ package com.timothy.themoviedb.splash_impl
 
 import android.content.Context
 import android.content.Intent
-import com.timothy.themoviedb.core.usecases.invoke
+import com.timothy.themoviedb.core.ext.invoke
 import com.timothy.themoviedb.splash_api.data.ConfigDataSource
 import com.timothy.themoviedb.splash_api.domain.ConfigRepository
 import com.timothy.themoviedb.splash_api.ui.SplashAction

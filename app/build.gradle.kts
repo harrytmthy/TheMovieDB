@@ -77,6 +77,7 @@ dependencies {
     implementation(project(":feature:splash:splash-api"))
     implementation(project(":feature:splash:splash-impl"))
 
+    implementation(libs.android.core.splashScreen)
     implementation(libs.android.hilt.work)
     implementation(libs.bundles.android.room)
     kapt(libs.android.room.compiler)

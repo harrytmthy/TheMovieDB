@@ -16,7 +16,7 @@
 
 package com.timothy.themoviedb.home_impl.domain
 
-import com.timothy.themoviedb.core.Result.Loading.data
+import com.timothy.themoviedb.core.Result.Success
 import com.timothy.themoviedb.home_api.domain.MovieRepository
 import com.timothy.themoviedb.home_impl.domain.GetNextPageUseCase.Params
 import io.mockk.every
@@ -32,10 +32,10 @@ class GetNextPageUseCaseTest {
     @Test
     fun `invoke should return correct result`() = runTest {
         val repository = mockk<MovieRepository>()
-        every { repository.getNextPage(any()) } returns flowOf(2)
+        every { repository.getNextPage(any()) } returns flowOf(Unit)
 
         val result = GetNextPageUseCase(repository).invoke(Params(page = 1)).last()
 
-        result.data shouldBeEqualTo 2
+        result shouldBeEqualTo Success(Unit)
     }
 }

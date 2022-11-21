@@ -16,6 +16,7 @@
 
 package com.timothy.themoviedb.home_impl.data
 
+import com.timothy.themoviedb.core.paging.PagedData
 import com.timothy.themoviedb.home_api.domain.Movie.Companion.from
 import com.timothy.themoviedb.home_api.domain.MovieRepository
 import com.timothy.themoviedb.splash_api.data.ConfigDataSource
@@ -34,19 +35,22 @@ class MovieRepositoryImpl @Inject constructor(
     override fun getNextPage(page: Int) = flow {
         val response = movieNetworkDataSource.getPopularMovies(page)
         movieLocalDataSource.saveMovies(
-            entities = response.results.map(MovieResponse::toEntity),
+            entities = response.results.map { it.toEntity(response.getNextPage()) },
             page = response.page
         )
-        emit(response.getNextPage())
+        emit(Unit)
     }
 
     override fun getMovies() = movieLocalDataSource.getMovies().map { movies ->
-        movies.map {
+        var nextPage = 1
+        val data = movies.map {
+            nextPage = nextPage.coerceAtLeast(it.nextPage)
             from(
                 entity = it,
                 backdropUrl = configDataSource.getConfigFromLocal().getBackdropUrl(it.backdropPath),
                 posterUrl = configDataSource.getConfigFromLocal().getPosterUrl(it.posterPath)
             )
         }
+        PagedData(data, nextPage)
     }
 }

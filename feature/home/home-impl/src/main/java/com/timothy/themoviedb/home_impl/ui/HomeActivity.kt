@@ -18,6 +18,7 @@ package com.timothy.themoviedb.home_impl.ui
 
 import android.os.Bundle
 import androidx.activity.viewModels
+import com.timothy.themoviedb.common.ext.addLoadMoreListener
 import com.timothy.themoviedb.home_impl.R
 import com.timothy.themoviedb.home_impl.databinding.ActivityHomeBinding
 import com.timothy.themoviedb.ui.base.BaseActivity
@@ -44,6 +45,10 @@ class HomeActivity : BaseActivity() {
     private fun setupUi() {
         binding.toolbar.bind(this, R.string.home_title)
         binding.srlContent.setOnRefreshListener(viewModel::refresh)
+        binding.rvContent.addLoadMoreListener(
+            canLoadMore = { viewModel.viewState.value.canLoadMore() },
+            onLoadMore = viewModel::getNextPage
+        )
         binding.rvContent.setController(controller)
     }
 

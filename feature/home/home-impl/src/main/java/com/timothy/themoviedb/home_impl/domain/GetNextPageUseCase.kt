@@ -23,7 +23,7 @@ import javax.inject.Inject
 
 class GetNextPageUseCase @Inject constructor(
     private val repository: MovieRepository
-) : FlowUseCase<GetNextPageUseCase.Params, Int>() {
+) : FlowUseCase<GetNextPageUseCase.Params, Unit>() {
 
     override fun execute(params: Params) = repository.getNextPage(params.page).toResult()
 

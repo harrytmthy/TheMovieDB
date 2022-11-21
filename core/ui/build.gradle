@@ -17,7 +17,7 @@ dependencies {
     api libs.android.activityKtx
     api libs.android.appcompat
     api libs.android.constraintLayout
-    api libs.android.coreKtx
+    api libs.android.core.ktx
     api libs.android.lifecycle.livedata
     api libs.android.lifecycle.viewmodel
     implementation libs.airbnb.deeplink

@@ -21,7 +21,7 @@ import com.timothy.themoviedb.core.Result.Loading
 import com.timothy.themoviedb.core.Result.Success
 import com.timothy.themoviedb.core.test.MainDispatcherTest
 import com.timothy.themoviedb.home_api.ui.HomeAction
-import com.timothy.themoviedb.home_impl.data.HomeTestData.MOVIES
+import com.timothy.themoviedb.home_impl.data.HomeTestData.PAGED_MOVIES
 import com.timothy.themoviedb.home_impl.ui.HomeNavigation.MovieDetail
 import com.timothy.themoviedb.home_impl.ui.HomeViewState.Companion.create
 import com.timothy.themoviedb.ui.ext.getErrorMessage
@@ -49,11 +49,11 @@ class HomeViewModelTest : MainDispatcherTest() {
 
     @Test
     fun `observeMovies should set correct data`() {
-        every { action.observeMovies() } returns flowOf(MOVIES)
+        every { action.observeMovies() } returns flowOf(PAGED_MOVIES)
 
         val viewModel = HomeViewModel(action)
 
-        viewModel.viewState.value.movies shouldBeEqualTo MOVIES
+        viewModel.viewState.value.movies shouldBeEqualTo PAGED_MOVIES.data
     }
 
     @Test
@@ -78,11 +78,11 @@ class HomeViewModelTest : MainDispatcherTest() {
 
     @Test
     fun `getNextPage when success should set correct data`() {
-        every { action.getNextPage(any()) } returns flowOf(Success(data = 2))
+        every { action.getNextPage(any()) } returns flowOf(Success(Unit))
 
         val viewModel = HomeViewModel(action)
 
-        viewModel.viewState.value.nextPage shouldBeEqualTo 2
+        viewModel.viewState.value.loading shouldBeEqualTo false
     }
 
     @Test

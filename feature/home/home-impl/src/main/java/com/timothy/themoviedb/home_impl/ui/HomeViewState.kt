@@ -25,16 +25,21 @@ data class HomeViewState(
     val refreshing: Boolean,
     val error: Boolean,
     val nextPage: Int,
-    val movies: List<Movie>,
+    val movies: List<Movie>
 ) : ViewState() {
 
+    fun canLoadMore() = !loading && !loadingNext && !refreshing && nextPage >= FIRST_PAGE
+
     companion object {
+
+        internal const val FIRST_PAGE = 1
+
         fun create() = HomeViewState(
             loading = false,
             loadingNext = false,
             refreshing = false,
             error = false,
-            nextPage = 1,
+            nextPage = FIRST_PAGE,
             movies = emptyList()
         )
     }

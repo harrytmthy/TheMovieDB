@@ -19,11 +19,16 @@ package com.timothy.themoviedb.network.handler
 import com.timothy.themoviedb.core.exceptions.ApiErrorException
 import com.timothy.themoviedb.core.exceptions.NoInternetException
 import com.timothy.themoviedb.core.exceptions.UnknownErrorException
+import com.timothy.themoviedb.network.handler.ApiResponse.ApiError
+import com.timothy.themoviedb.network.handler.ApiResponse.NetworkError
+import com.timothy.themoviedb.network.handler.ApiResponse.NoInternetError
+import com.timothy.themoviedb.network.handler.ApiResponse.Success
+import com.timothy.themoviedb.network.handler.ApiResponse.UnknownError
 import java.io.IOException
 
 /**
  * A custom API response wrapper which introduces four different states:
- * 1. [Success] -> The response contains a body which deserialized into [data].
+ * 1. [Success] -> The response contains a body which deserialized into [Success.data].
  * 2. [ApiError] -> Represents non-2xx responses with an error message and status code.
  * 3. [NetworkError] -> Represents network failures.
  * 4. [NoInternetError] -> Represent error due to no internet connection.
@@ -31,7 +36,7 @@ import java.io.IOException
  *
  * Guidelines:
  * Always use sealed class to represent states. This will support the type checks and prevent any
- * exhaustive [when] expression (which will be banned at Kotlin 1.7).
+ * exhaustive `when` expression (which will be banned at Kotlin 1.7).
  */
 sealed class ApiResponse<out T : Any> {
 

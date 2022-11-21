@@ -22,6 +22,7 @@ import com.timothy.themoviedb.core.Result.Loading
 import com.timothy.themoviedb.core.Result.Success
 import com.timothy.themoviedb.home_api.ui.HomeAction
 import com.timothy.themoviedb.home_impl.ui.HomeNavigation.MovieDetail
+import com.timothy.themoviedb.home_impl.ui.HomeViewState.Companion.FIRST_PAGE
 import com.timothy.themoviedb.home_impl.ui.HomeViewState.Companion.create
 import com.timothy.themoviedb.ui.base.StateViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -34,14 +35,14 @@ class HomeViewModel @Inject constructor(
 ) : StateViewModel<HomeViewState>(create()) {
 
     init {
-        observeMovies()
         getNextPage()
+        observeMovies()
     }
 
     private fun observeMovies() {
         viewModelScope.launch {
             action.observeMovies().collect {
-                updateViewState { copy(movies = it) }
+                updateViewState { copy(movies = it.data, nextPage = it.nextPage) }
             }
         }
     }
@@ -55,12 +56,7 @@ class HomeViewModel @Inject constructor(
                         copy(loading = nextPage == 1, loadingNext = nextPage > 1, error = false)
                     }
                     is Success -> updateViewState {
-                        copy(
-                            loading = false,
-                            loadingNext = false,
-                            refreshing = false,
-                            nextPage = result.data
-                        )
+                        copy(loading = false, loadingNext = false, refreshing = false)
                     }
                     is Error -> {
                         updateViewState {
@@ -71,7 +67,7 @@ class HomeViewModel @Inject constructor(
                                 error = true
                             )
                         }
-                        if (nextPage == 1) return@collect
+                        if (nextPage == FIRST_PAGE) return@collect
                         errorSnackbar(result.message)
                     }
                 }
@@ -80,7 +76,7 @@ class HomeViewModel @Inject constructor(
     }
 
     fun refresh() {
-        updateViewState { copy(refreshing = true, nextPage = 1) }
+        updateViewState { copy(refreshing = true, nextPage = FIRST_PAGE) }
         getNextPage()
     }
 

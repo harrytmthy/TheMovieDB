@@ -16,12 +16,13 @@
 
 package com.timothy.themoviedb.home_impl.data
 
+import com.timothy.themoviedb.core.paging.PagedData
 import com.timothy.themoviedb.home_api.domain.Movie
 import org.threeten.bp.LocalDate
 
 object HomeTestData {
 
-    val MOVIE = Movie(
+    private val MOVIE = Movie(
         id = 1L,
         title = "Crayon Bocah",
         overview = "Film spesial untuk bocah.",
@@ -32,4 +33,6 @@ object HomeTestData {
     )
 
     val MOVIES = listOf(MOVIE)
+
+    val PAGED_MOVIES = PagedData(MOVIES, nextPage = 2)
 }
