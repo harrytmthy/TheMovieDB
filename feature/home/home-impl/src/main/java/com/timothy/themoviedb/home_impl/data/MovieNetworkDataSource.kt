@@ -21,4 +21,6 @@ import javax.inject.Inject
 class MovieNetworkDataSource @Inject constructor(private val service: MovieService) {
 
     suspend fun getPopularMovies(page: Int) = service.getPopularMovies(page).unwrap()
+
+    suspend fun getMovieDetail(movieId: Long) = service.getMovie(movieId).unwrap()
 }

@@ -17,8 +17,9 @@
 package com.timothy.themoviedb.home_impl.data
 
 import com.timothy.themoviedb.core.paging.PagedData
-import com.timothy.themoviedb.home_api.domain.Movie.Companion.from
 import com.timothy.themoviedb.home_api.domain.MovieRepository
+import com.timothy.themoviedb.home_api.domain.model.Movie.Companion.from
+import com.timothy.themoviedb.home_api.domain.model.MovieDetail
 import com.timothy.themoviedb.splash_api.data.ConfigDataSource
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.map
@@ -41,7 +42,7 @@ class MovieRepositoryImpl @Inject constructor(
         emit(Unit)
     }
 
-    override fun getMovies() = movieLocalDataSource.getMovies().map { movies ->
+    override fun loadMovies() = movieLocalDataSource.getMoviesFlow().map { movies ->
         var nextPage = 1
         val data = movies.map {
             nextPage = nextPage.coerceAtLeast(it.nextPage)
@@ -52,5 +53,25 @@ class MovieRepositoryImpl @Inject constructor(
             )
         }
         PagedData(data, nextPage)
+    }
+
+    override fun getMovieDetail(movieId: Long) = flow {
+        val response = movieNetworkDataSource.getMovieDetail(movieId)
+        val nextPage = movieLocalDataSource.getMovieNextPage(movieId)
+        movieLocalDataSource.updateMovieDetail(
+            movie = response.toMovieEntity(nextPage),
+            videos = response.toVideoEntities()
+        )
+        emit(Unit)
+    }
+
+    override fun loadMovieDetail(movieId: Long) = movieLocalDataSource.getMovieDetail(movieId).map {
+        val entityPair = it.entries.firstOrNull()?.toPair() ?: return@map MovieDetail.EMPTY
+        val movie = entityPair.first
+        MovieDetail.from(
+            entityPair = entityPair,
+            backdropUrl = configDataSource.getConfigFromLocal().getBackdropUrl(movie.backdropPath),
+            posterUrl = configDataSource.getConfigFromLocal().getPosterUrl(movie.posterPath)
+        )
     }
 }

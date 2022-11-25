@@ -5,7 +5,7 @@
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *     https://www.apache.org/licenses/LICENSE-2.0
+ *     http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -14,33 +14,32 @@
  * limitations under the License.
  */
 
-package com.timothy.themoviedb.home_impl.ui
+package com.timothy.themoviedb.home_impl.ui.detail
 
-import com.timothy.themoviedb.home_api.domain.model.Movie
+import androidx.lifecycle.SavedStateHandle
+import com.timothy.themoviedb.home_api.domain.model.MovieDetail
 import com.timothy.themoviedb.ui.base.ViewState
 
-data class HomeViewState(
+data class MovieDetailViewState(
+    val movieId: Long,
     val loading: Boolean,
-    val loadingNext: Boolean,
     val refreshing: Boolean,
     val error: Boolean,
-    val nextPage: Int,
-    val movies: List<Movie>
+    val data: MovieDetail
 ) : ViewState() {
-
-    fun canLoadMore() = !loading && !loadingNext && !refreshing && nextPage >= FIRST_PAGE
 
     companion object {
 
-        internal const val FIRST_PAGE = 1
+        internal const val KEY_MOVIE_ID = "movieId"
 
-        fun create() = HomeViewState(
+        internal const val INVALID_MOVIE_ID = 1L
+
+        fun create(savedStateHandle: SavedStateHandle) = MovieDetailViewState(
+            movieId = savedStateHandle[KEY_MOVIE_ID] ?: INVALID_MOVIE_ID,
             loading = false,
-            loadingNext = false,
             refreshing = false,
             error = false,
-            nextPage = FIRST_PAGE,
-            movies = emptyList()
+            data = MovieDetail.EMPTY
         )
     }
 }

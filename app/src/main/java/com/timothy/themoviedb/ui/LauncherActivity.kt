@@ -18,15 +18,15 @@ package com.timothy.themoviedb.ui
 
 import android.os.Bundle
 import androidx.activity.viewModels
+import androidx.appcompat.app.AppCompatActivity
 import com.timothy.themoviedb.splash_api.ui.SplashDestination
 import com.timothy.themoviedb.ui.LauncherNavigation.Splash
-import com.timothy.themoviedb.ui.base.BaseActivity
 import com.timothy.themoviedb.ui.ext.observeEvent
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class LauncherActivity : BaseActivity() {
+class LauncherActivity : AppCompatActivity() {
 
     private val viewModel by viewModels<LauncherViewModel>()
 

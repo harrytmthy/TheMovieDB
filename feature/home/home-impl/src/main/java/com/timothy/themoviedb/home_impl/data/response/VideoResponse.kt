@@ -14,17 +14,18 @@
  * limitations under the License.
  */
 
-package com.timothy.themoviedb.home_impl.domain
+package com.timothy.themoviedb.home_impl.data.response
 
-import com.timothy.themoviedb.core.paging.PagedData
-import com.timothy.themoviedb.core.usecases.DataFlowUseCase
-import com.timothy.themoviedb.home_api.domain.MovieRepository
-import com.timothy.themoviedb.home_api.domain.model.Movie
-import javax.inject.Inject
+import com.timothy.themoviedb.home_api.data.entities.VideoEntity
+import kotlinx.serialization.Serializable
 
-class ObserveMoviesUseCase @Inject constructor(
-    private val repository: MovieRepository
-) : DataFlowUseCase<Unit, PagedData<Movie>>() {
+@Serializable
+data class VideoResponse(val name: String?, val key: String?, val site: String?) {
 
-    override fun execute(params: Unit) = repository.loadMovies()
+    fun toEntity(movieId: Long) = VideoEntity(
+        movieId = movieId,
+        name = name.orEmpty(),
+        key = key.orEmpty(),
+        site = site.orEmpty()
+    )
 }

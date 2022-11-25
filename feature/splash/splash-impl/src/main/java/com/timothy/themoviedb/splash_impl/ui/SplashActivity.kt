@@ -16,13 +16,12 @@
 
 package com.timothy.themoviedb.splash_impl.ui
 
-import android.os.Bundle
 import androidx.activity.viewModels
 import com.timothy.themoviedb.home_api.ui.HomeDestination
 import com.timothy.themoviedb.splash_impl.databinding.ActivitySplashBinding
 import com.timothy.themoviedb.splash_impl.ui.SplashNavigation.Home
 import com.timothy.themoviedb.ui.base.BaseActivity
-import com.timothy.themoviedb.ui.ext.observeEvent
+import com.timothy.themoviedb.ui.base.Navigation
 import com.timothy.themoviedb.ui.ext.viewBinding
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
@@ -30,27 +29,20 @@ import javax.inject.Inject
 @AndroidEntryPoint
 class SplashActivity : BaseActivity() {
 
-    private val binding by viewBinding(ActivitySplashBinding::inflate)
+    override val binding by viewBinding(ActivitySplashBinding::inflate)
 
-    private val viewModel by viewModels<SplashViewModel>()
+    override val viewModel by viewModels<SplashViewModel>()
 
     @Inject
     lateinit var homeDestination: HomeDestination
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(binding.root)
-        observeNavigation()
-        observeSnackbarEvent(viewModel.snackbarMessage, view = binding.root)
-    }
+    override fun setupUi() = Unit
 
-    private fun observeNavigation() {
-        viewModel.navigation.observeEvent(this) { navigation ->
-            if (navigation is Home) {
-                val intent = homeDestination.createHomeIntent(this)
-                startActivity(intent)
-                finishAffinity()
-            }
+    override fun onNavigate(navigation: Navigation) {
+        if (navigation is Home) {
+            val intent = homeDestination.createHomeIntent(this)
+            startActivity(intent)
+            finishAffinity()
         }
     }
 }

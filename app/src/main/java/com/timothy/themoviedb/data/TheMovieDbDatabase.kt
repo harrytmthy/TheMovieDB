@@ -22,12 +22,13 @@ import androidx.room.TypeConverters
 import com.timothy.themoviedb.core.converters.CollectionTypeConverters
 import com.timothy.themoviedb.data.DatabaseConstants.DB_VERSION
 import com.timothy.themoviedb.home_api.data.MovieDao
-import com.timothy.themoviedb.home_api.data.MovieEntity
+import com.timothy.themoviedb.home_api.data.entities.MovieEntity
+import com.timothy.themoviedb.home_api.data.entities.VideoEntity
 import com.timothy.themoviedb.splash_api.data.ConfigDao
 import com.timothy.themoviedb.splash_api.data.ConfigEntity
 
 @Database(
-    entities = [ConfigEntity::class, MovieEntity::class],
+    entities = [ConfigEntity::class, MovieEntity::class, VideoEntity::class],
     version = DB_VERSION
 )
 @TypeConverters(value = [CollectionTypeConverters::class])

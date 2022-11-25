@@ -18,7 +18,7 @@ package com.timothy.themoviedb.home_impl.ui
 
 import com.timothy.themoviedb.common.layout.emptyLayout
 import com.timothy.themoviedb.common.layout.loadingLayout
-import com.timothy.themoviedb.home_api.domain.Movie
+import com.timothy.themoviedb.home_api.domain.model.Movie
 import com.timothy.themoviedb.home_impl.ui.epoxy.movieItem
 import com.timothy.themoviedb.ui.base.BaseEpoxyController
 

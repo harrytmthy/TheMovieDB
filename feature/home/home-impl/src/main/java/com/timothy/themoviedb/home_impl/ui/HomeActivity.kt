@@ -16,33 +16,36 @@
 
 package com.timothy.themoviedb.home_impl.ui
 
-import android.os.Bundle
 import androidx.activity.viewModels
 import com.timothy.themoviedb.common.ext.addLoadMoreListener
 import com.timothy.themoviedb.home_impl.R
 import com.timothy.themoviedb.home_impl.databinding.ActivityHomeBinding
+import com.timothy.themoviedb.home_impl.ui.HomeNavigation.MovieDetail
+import com.timothy.themoviedb.home_impl.ui.detail.MovieDetailActivity.Companion.createIntent
 import com.timothy.themoviedb.ui.base.BaseActivity
+import com.timothy.themoviedb.ui.base.Navigation
 import com.timothy.themoviedb.ui.ext.viewBinding
+import com.timothy.themoviedb.ui.handler.ViewStateHandler
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class HomeActivity : BaseActivity() {
 
-    private val binding by viewBinding(ActivityHomeBinding::inflate)
+    override val binding by viewBinding(ActivityHomeBinding::inflate)
 
-    private val viewModel by viewModels<HomeViewModel>()
+    override val viewModel by viewModels<HomeViewModel>()
 
     private val controller by lazy { HomeEpoxyController(viewModel::navigateToMovieDetail) }
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(binding.root)
-        setupUi()
-        observeSnackbarEvent(viewModel.snackbarMessage, view = binding.root)
-        observeViewState()
+    override val viewStateHandler = object : ViewStateHandler<HomeViewState> {
+        override fun onViewStateUpdated(viewState: HomeViewState) {
+            binding.srlContent.isEnabled = !viewState.loading
+            binding.srlContent.isRefreshing = viewState.refreshing
+            controller.setData(viewState)
+        }
     }
 
-    private fun setupUi() {
+    override fun setupUi() {
         binding.toolbar.bind(this, R.string.home_title)
         binding.srlContent.setOnRefreshListener(viewModel::refresh)
         binding.rvContent.addLoadMoreListener(
@@ -52,9 +55,9 @@ class HomeActivity : BaseActivity() {
         binding.rvContent.setController(controller)
     }
 
-    private fun observeViewState() = viewModel.getViewState().observe(this) { viewState ->
-        binding.srlContent.isEnabled = !viewState.loading
-        binding.srlContent.isRefreshing = viewState.refreshing
-        controller.setData(viewState)
+    override fun onNavigate(navigation: Navigation) {
+        when (navigation) {
+            is MovieDetail -> startActivity(createIntent(this, navigation.movieId))
+        }
     }
 }

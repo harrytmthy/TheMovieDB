@@ -18,9 +18,12 @@ package com.timothy.themoviedb.home_api.data
 
 import androidx.room.Dao
 import androidx.room.Insert
-import androidx.room.OnConflictStrategy
+import androidx.room.OnConflictStrategy.REPLACE
 import androidx.room.Query
 import androidx.room.Transaction
+import androidx.room.Update
+import com.timothy.themoviedb.home_api.data.entities.MovieEntity
+import com.timothy.themoviedb.home_api.data.entities.VideoEntity
 import kotlinx.coroutines.flow.Flow
 
 @Dao
@@ -29,15 +32,48 @@ interface MovieDao {
     @Query("SELECT * FROM MovieEntity")
     fun getMoviesFlow(): Flow<List<MovieEntity>>
 
-    @Query("DELETE FROM MovieEntity")
-    suspend fun delete()
+    @Query("SELECT * FROM MovieEntity WHERE id = :id")
+    fun getMovieFlow(id: Long): Flow<MovieEntity>
 
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insert(entities: List<MovieEntity>)
+    @Query("SELECT nextPage FROM MovieEntity WHERE id = :id")
+    suspend fun getMovieNextPage(id: Long): Int
+
+    @Query("SELECT * FROM VideoEntity WHERE movieId = :movieId")
+    fun getVideosFlow(movieId: Long): Flow<VideoEntity>
+
+    @Query(
+        """
+        SELECT * FROM MovieEntity
+        JOIN VideoEntity ON MovieEntity.id = VideoEntity.movieId
+        WHERE MovieEntity.id = :movieId
+        """
+    )
+    suspend fun getMovieDetail(movieId: Long): Map<MovieEntity, List<VideoEntity>>
+
+    @Update(onConflict = REPLACE)
+    suspend fun updateMovie(entity: MovieEntity)
+
+    @Query("DELETE FROM MovieEntity")
+    suspend fun deleteAllMovies()
+
+    @Insert(onConflict = REPLACE)
+    suspend fun insertMovies(entities: List<MovieEntity>)
 
     @Transaction
-    suspend fun deleteThenInsert(entities: List<MovieEntity>) {
-        delete()
-        insert(entities)
+    suspend fun deleteThenInsertMovies(entities: List<MovieEntity>) {
+        deleteAllMovies()
+        insertMovies(entities)
+    }
+
+    @Query("DELETE FROM VideoEntity WHERE movieId = :movieId")
+    suspend fun deleteVideos(movieId: Long)
+
+    @Insert(onConflict = REPLACE)
+    suspend fun insertVideos(entities: List<VideoEntity>)
+
+    @Transaction
+    suspend fun deleteThenInsertVideos(movieId: Long, entities: List<VideoEntity>) {
+        deleteVideos(movieId)
+        insertVideos(entities)
     }
 }

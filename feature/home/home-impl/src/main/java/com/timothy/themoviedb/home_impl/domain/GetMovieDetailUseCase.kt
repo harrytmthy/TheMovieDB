@@ -5,7 +5,7 @@
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *     https://www.apache.org/licenses/LICENSE-2.0
+ *     http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -16,15 +16,16 @@
 
 package com.timothy.themoviedb.home_impl.domain
 
-import com.timothy.themoviedb.core.paging.PagedData
-import com.timothy.themoviedb.core.usecases.DataFlowUseCase
+import com.timothy.themoviedb.core.usecases.FlowUseCase
 import com.timothy.themoviedb.home_api.domain.MovieRepository
-import com.timothy.themoviedb.home_api.domain.model.Movie
+import com.timothy.themoviedb.ui.ext.toResult
 import javax.inject.Inject
 
-class ObserveMoviesUseCase @Inject constructor(
+class GetMovieDetailUseCase @Inject constructor(
     private val repository: MovieRepository
-) : DataFlowUseCase<Unit, PagedData<Movie>>() {
+) : FlowUseCase<GetMovieDetailUseCase.Params, Unit>() {
 
-    override fun execute(params: Unit) = repository.loadMovies()
+    override fun execute(params: Params) = repository.getMovieDetail(params.movieId).toResult()
+
+    data class Params(val movieId: Long)
 }

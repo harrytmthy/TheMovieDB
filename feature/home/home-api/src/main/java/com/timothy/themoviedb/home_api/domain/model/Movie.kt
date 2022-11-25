@@ -5,7 +5,7 @@
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *     https://www.apache.org/licenses/LICENSE-2.0
+ *     http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -14,10 +14,10 @@
  * limitations under the License.
  */
 
-package com.timothy.themoviedb.home_api.domain
+package com.timothy.themoviedb.home_api.domain.model
 
 import com.timothy.themoviedb.core.utils.LocalDateTimeUtil.getLocalDate
-import com.timothy.themoviedb.home_api.data.MovieEntity
+import com.timothy.themoviedb.home_api.data.entities.MovieEntity
 import org.threeten.bp.LocalDate
 
 data class Movie(
@@ -31,6 +31,17 @@ data class Movie(
 ) {
 
     companion object {
+
+        val EMPTY = Movie(
+            id = 0L,
+            title = "",
+            overview = "",
+            popularity = 0.0,
+            releaseDate = LocalDate.MIN,
+            backdropUrl = "",
+            posterUrl = ""
+        )
+
         fun from(entity: MovieEntity, backdropUrl: String, posterUrl: String) = Movie(
             id = entity.id,
             title = entity.title,

@@ -17,19 +17,33 @@
 package com.timothy.themoviedb.home_impl.data
 
 import com.timothy.themoviedb.home_api.data.MovieDao
-import com.timothy.themoviedb.home_api.data.MovieEntity
+import com.timothy.themoviedb.home_api.data.entities.MovieEntity
+import com.timothy.themoviedb.home_api.data.entities.VideoEntity
+import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.distinctUntilChanged
 import javax.inject.Inject
 
 class MovieLocalDataSource @Inject constructor(private val dao: MovieDao) {
 
-    fun getMovies() = dao.getMoviesFlow().distinctUntilChanged()
+    fun getMoviesFlow() = dao.getMoviesFlow().distinctUntilChanged()
+
+    suspend fun getMovieNextPage(id: Long) = dao.getMovieNextPage(id)
 
     suspend fun saveMovies(entities: List<MovieEntity>, page: Int) {
         if (page == 1) {
-            dao.deleteThenInsert(entities)
+            dao.deleteThenInsertMovies(entities)
         } else {
-            dao.insert(entities)
+            dao.insertMovies(entities)
         }
     }
+
+    suspend fun updateMovieDetail(movie: MovieEntity, videos: List<VideoEntity>) {
+        dao.updateMovie(movie)
+        dao.deleteThenInsertVideos(movieId = movie.id, entities = videos)
+    }
+
+    fun getMovieDetail(movieId: Long) = combine(
+        dao.getMovieFlow(movieId).distinctUntilChanged(),
+        dao.getVideosFlow(movieId).distinctUntilChanged()
+    ) { _, _ -> dao.getMovieDetail(movieId) }
 }

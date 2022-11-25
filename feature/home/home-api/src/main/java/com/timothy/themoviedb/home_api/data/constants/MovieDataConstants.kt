@@ -5,7 +5,7 @@
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *     https://www.apache.org/licenses/LICENSE-2.0
+ *     http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -14,16 +14,15 @@
  * limitations under the License.
  */
 
-package com.timothy.themoviedb.home_api.domain
+package com.timothy.themoviedb.home_api.data.constants
 
-import com.timothy.themoviedb.core.paging.PagedData
-import com.timothy.themoviedb.home_api.domain.model.Movie
-import com.timothy.themoviedb.home_api.domain.model.MovieDetail
-import kotlinx.coroutines.flow.Flow
+object MovieDataConstants {
 
-interface MovieRepository {
-    fun getNextPage(page: Int): Flow<Unit>
-    fun loadMovies(): Flow<PagedData<Movie>>
-    fun getMovieDetail(movieId: Long): Flow<Unit>
-    fun loadMovieDetail(movieId: Long): Flow<MovieDetail>
+    internal const val YOUTUBE_SITE = "Youtube"
+
+    internal const val VIMEO_SITE = "Vimeo"
+
+    internal const val YOUTUBE_URL = "https://www.youtube.com/watch?v="
+
+    internal const val VIMEO_URL = "https://vimeo.com/"
 }

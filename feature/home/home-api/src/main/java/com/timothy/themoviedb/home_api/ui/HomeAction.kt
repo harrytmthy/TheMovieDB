@@ -18,10 +18,13 @@ package com.timothy.themoviedb.home_api.ui
 
 import com.timothy.themoviedb.core.Result
 import com.timothy.themoviedb.core.paging.PagedData
-import com.timothy.themoviedb.home_api.domain.Movie
+import com.timothy.themoviedb.home_api.domain.model.Movie
+import com.timothy.themoviedb.home_api.domain.model.MovieDetail
 import kotlinx.coroutines.flow.Flow
 
 interface HomeAction {
     fun getNextPage(page: Int): Flow<Result<Unit>>
     fun observeMovies(): Flow<PagedData<Movie>>
+    fun getMovieDetail(id: Long): Flow<Result<Unit>>
+    fun observeMovieDetail(id: Long): Flow<MovieDetail>
 }

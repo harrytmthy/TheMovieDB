@@ -17,8 +17,11 @@
 package com.timothy.themoviedb.home_impl.data
 
 import com.timothy.themoviedb.core.paging.PagedResponse
+import com.timothy.themoviedb.home_impl.data.response.MovieDetailResponse
+import com.timothy.themoviedb.home_impl.data.response.MovieResponse
 import com.timothy.themoviedb.network.handler.ApiResponse
 import retrofit2.http.GET
+import retrofit2.http.Path
 import retrofit2.http.Query
 
 interface MovieService {
@@ -27,4 +30,10 @@ interface MovieService {
     suspend fun getPopularMovies(
         @Query("page") page: Int
     ): ApiResponse<PagedResponse<MovieResponse>>
+
+    @GET("movie/{movie_id}")
+    suspend fun getMovie(
+        @Path("movie_id") movieId: Long,
+        @Query("append_to_response") extraQuery: String = "videos"
+    ): ApiResponse<MovieDetailResponse>
 }

@@ -17,7 +17,10 @@
 package com.timothy.themoviedb.home_impl.data
 
 import com.timothy.themoviedb.core.paging.PagedData
-import com.timothy.themoviedb.home_api.domain.Movie
+import com.timothy.themoviedb.home_api.domain.enums.VideoType.YOUTUBE
+import com.timothy.themoviedb.home_api.domain.model.Movie
+import com.timothy.themoviedb.home_api.domain.model.MovieDetail
+import com.timothy.themoviedb.home_api.domain.model.Video
 import org.threeten.bp.LocalDate
 
 object HomeTestData {
@@ -35,4 +38,12 @@ object HomeTestData {
     val MOVIES = listOf(MOVIE)
 
     val PAGED_MOVIES = PagedData(MOVIES, nextPage = 2)
+
+    private val VIDEO = Video(
+        name = "White Adam Official Trailer",
+        url = "http://dummy.io",
+        type = YOUTUBE
+    )
+
+    val MOVIE_DETAIL = MovieDetail(movie = MOVIE, videos = listOf(VIDEO))
 }

@@ -5,7 +5,7 @@
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *     https://www.apache.org/licenses/LICENSE-2.0
+ *     http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -16,9 +16,9 @@
 
 package com.timothy.themoviedb.home_impl.domain
 
-import com.timothy.themoviedb.core.ext.invoke
 import com.timothy.themoviedb.home_api.domain.MovieRepository
-import com.timothy.themoviedb.home_impl.data.HomeTestData.PAGED_MOVIES
+import com.timothy.themoviedb.home_impl.data.HomeTestData.MOVIE_DETAIL
+import com.timothy.themoviedb.home_impl.domain.ObserveMovieDetailUseCase.Params
 import io.mockk.every
 import io.mockk.mockk
 import kotlinx.coroutines.flow.flowOf
@@ -27,15 +27,15 @@ import kotlinx.coroutines.test.runTest
 import org.amshove.kluent.shouldBeEqualTo
 import org.junit.Test
 
-class ObserveMoviesUseCaseTest {
+class ObserveMovieDetailUseCaseTest {
 
     @Test
     fun `invoke should return correct result`() = runTest {
         val repository = mockk<MovieRepository>()
-        every { repository.loadMovies() } returns flowOf(PAGED_MOVIES)
+        every { repository.loadMovieDetail(any()) } returns flowOf(MOVIE_DETAIL)
 
-        val data = ObserveMoviesUseCase(repository).invoke().single()
+        val data = ObserveMovieDetailUseCase(repository).invoke(Params(movieId = 123L)).single()
 
-        data shouldBeEqualTo PAGED_MOVIES
+        data shouldBeEqualTo MOVIE_DETAIL
     }
 }

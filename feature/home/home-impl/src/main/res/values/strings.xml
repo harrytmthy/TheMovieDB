@@ -16,4 +16,5 @@
 
 <resources>
     <string name="home_title">Movie List</string>
+    <string name="movie_detail_title">Movie Detail</string>
 </resources>

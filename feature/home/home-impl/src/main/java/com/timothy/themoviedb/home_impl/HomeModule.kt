@@ -24,8 +24,9 @@ import com.timothy.themoviedb.home_api.ui.HomeAction
 import com.timothy.themoviedb.home_api.ui.HomeDestination
 import com.timothy.themoviedb.home_impl.data.MovieRepositoryImpl
 import com.timothy.themoviedb.home_impl.data.MovieService
+import com.timothy.themoviedb.home_impl.domain.GetMovieDetailUseCase
 import com.timothy.themoviedb.home_impl.domain.GetNextPageUseCase
-import com.timothy.themoviedb.home_impl.domain.GetNextPageUseCase.Params
+import com.timothy.themoviedb.home_impl.domain.ObserveMovieDetailUseCase
 import com.timothy.themoviedb.home_impl.domain.ObserveMoviesUseCase
 import com.timothy.themoviedb.home_impl.ui.HomeActivity
 import dagger.Module
@@ -34,6 +35,9 @@ import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import retrofit2.Retrofit
 import javax.inject.Singleton
+import com.timothy.themoviedb.home_impl.domain.GetMovieDetailUseCase.Params as MovieDetailParams
+import com.timothy.themoviedb.home_impl.domain.GetNextPageUseCase.Params as NextPageParams
+import com.timothy.themoviedb.home_impl.domain.ObserveMovieDetailUseCase.Params as DetailParams
 
 @InstallIn(SingletonComponent::class)
 @Module
@@ -51,10 +55,14 @@ object HomeModule {
     @Provides
     fun provideAction(
         getNextPageUseCase: GetNextPageUseCase,
-        observeMoviesUseCase: ObserveMoviesUseCase
+        observeMoviesUseCase: ObserveMoviesUseCase,
+        getMovieDetailUseCase: GetMovieDetailUseCase,
+        observeMovieDetailUseCase: ObserveMovieDetailUseCase
     ) = object : HomeAction {
-        override fun getNextPage(page: Int) = getNextPageUseCase(Params(page))
+        override fun getNextPage(page: Int) = getNextPageUseCase(NextPageParams(page))
         override fun observeMovies() = observeMoviesUseCase()
+        override fun getMovieDetail(id: Long) = getMovieDetailUseCase(MovieDetailParams(id))
+        override fun observeMovieDetail(id: Long) = observeMovieDetailUseCase(DetailParams(id))
     }
 
     @Singleton

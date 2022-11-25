@@ -14,9 +14,9 @@
  * limitations under the License.
  */
 
-package com.timothy.themoviedb.home_impl.data
+package com.timothy.themoviedb.home_impl.data.response
 
-import com.timothy.themoviedb.home_api.data.MovieEntity
+import com.timothy.themoviedb.home_api.data.entities.MovieEntity
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 

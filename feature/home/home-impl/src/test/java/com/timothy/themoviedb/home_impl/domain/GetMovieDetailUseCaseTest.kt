@@ -16,26 +16,26 @@
 
 package com.timothy.themoviedb.home_impl.domain
 
-import com.timothy.themoviedb.core.ext.invoke
+import com.timothy.themoviedb.core.Result.Success
 import com.timothy.themoviedb.home_api.domain.MovieRepository
-import com.timothy.themoviedb.home_impl.data.HomeTestData.PAGED_MOVIES
+import com.timothy.themoviedb.home_impl.domain.GetMovieDetailUseCase.Params
 import io.mockk.every
 import io.mockk.mockk
 import kotlinx.coroutines.flow.flowOf
-import kotlinx.coroutines.flow.single
+import kotlinx.coroutines.flow.last
 import kotlinx.coroutines.test.runTest
 import org.amshove.kluent.shouldBeEqualTo
 import org.junit.Test
 
-class ObserveMoviesUseCaseTest {
+class GetMovieDetailUseCaseTest {
 
     @Test
     fun `invoke should return correct result`() = runTest {
         val repository = mockk<MovieRepository>()
-        every { repository.loadMovies() } returns flowOf(PAGED_MOVIES)
+        every { repository.getMovieDetail(any()) } returns flowOf(Unit)
 
-        val data = ObserveMoviesUseCase(repository).invoke().single()
+        val result = GetMovieDetailUseCase(repository).invoke(Params(movieId = 1L)).last()
 
-        data shouldBeEqualTo PAGED_MOVIES
+        result shouldBeEqualTo Success(Unit)
     }
 }
